@@ -1,6 +1,14 @@
 package System;
 
+import Functions.Load;
+import Functions.Save;
+
 import java.io.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -20,13 +28,12 @@ public class UserInterface {
 
         while (true) {
             System.out.println("Please select the menu.");
-            System.out.println("1. Adding new claim.");
-            System.out.println("2. Deleting claim.");
-            System.out.println("3. Searching claim.");
-            System.out.println("4. Ordering all claims.");
-            System.out.println("5. Chainging claim's status.");
+            System.out.println("1. View.");
+            System.out.println("2. Search.");
+            System.out.println("3. Create.");
+            System.out.println("4. Delete.");
             System.out.println("exit. Close the program.");
-                String startMenu = scanner.next();
+            String startMenu = scanner.nextLine();
                 switch (startMenu) {
                     case "exit":
                         System.out.println("Program is now closing...");
@@ -115,39 +122,147 @@ public class UserInterface {
         System.out.println("");
 
     }
-    private void add(){}
+    private void createSelect(){
+        String createOption = scanner.nextLine();
+
+        System.out.println("Plase select the category you want to create into database.");
+        System.out.println("1. Claim");
+        System.out.println("2. Customer");
+        System.out.println("3. Insurance card");
+        System.out.println("b. Back to start menu");
+        switch (createOption) {
+            case "b":
+                startMenu();
+                return; // 종료
+            case "1":
+                // 1번 메뉴 코드를 여기에 추가
+                break;
+            case "2":
+                // 2번 메뉴 코드를 여기에 추가
+                break;
+            case "3":
+                // 3번 메뉴 코드를 여기에 추가
+                break;
+            case "4":
+                // 4번 메뉴 코드를 여기에 추가
+                break;
+            default:
+                System.out.println("Invalid input.");
+                break;
+    }}
     private void deleteSelect(){
-        System.out.println("Please type the claim id number.");
-        System.out.println("b. Back to start menu.");
-        String idNum = scanner.next();
-    }
-    public void update(){
-        /*
-        * Status,Claim amount와 같은거를 업데이트,
-        * */  }
-    public void search(){
-        System.out.println("Please type the search option.");
+            String deleteOption = scanner.nextLine();
+
+            System.out.println("Plase the type you want to delete from database.");
+            System.out.println("1. Claim");
+            System.out.println("2. Customer");
+            System.out.println("3. Insurance card");
+            System.out.println("b. Back to start menu");
+            switch (deleteOption) {
+                case "b":
+                    startMenu();
+                    return; // 종료
+                case "1":
+                    // 1번 메뉴 코드를 여기에 추가
+                    break;
+                case "2":
+                    // 2번 메뉴 코드를 여기에 추가
+                    break;
+                case "3":
+                    // 3번 메뉴 코드를 여기에 추가
+                    break;
+                case "4":
+                    // 4번 메뉴 코드를 여기에 추가
+                    break;
+                default:
+                    System.out.println("Invalid input.");
+                    break;
+    }}
+    public void searchSelect(){
+        System.out.println("Plase select the category to search.");
         System.out.println("1. Claim.");
         System.out.println("2. Customer.");
         System.out.println("3. Insurance card.");
-        String idNum = scanner.next();
-        System.out.println("There's no match claim in the database.");
+        System.out.println("b. Back to start menu");
+        String searchOption = scanner.next();
     }
-    public void searchClaim(){
-        System.out.println("Please type the claim ID.");
+    public void searchSelectOptionClaim(){
+        System.out.println("Please select the search option.");
+        System.out.println("1. Customer ID");
+        System.out.println("2. Customer name");
+        System.out.println("3. Insurance Card ");
+        System.out.println("b. Back to start menu");
+    }
+    public void searchSelectOptionCustomer(){
+        System.out.println("Please select the search option.");
+        System.out.println("1. Customer ID");
+        System.out.println("2. Customer name");
+        System.out.println("3. Insurance Card ");
+        System.out.println("b. Back to start menu");
+    }
+    public void searchSelectOptionInsuranceCard(){
+        System.out.println("Please select the search option.");
+        System.out.println("1. Customer ID");
+        System.out.println("2. Customer name");
+        System.out.println("3. Insurance Card ");
+        System.out.println("b. Back to start menu");
     }
     public void searchCustomer(){
         System.out.println("Please type the customer ID");
         System.out.println("Please type the name");
+        System.out.println("b. Back to start menu");
     }
     public void searchInsuranceCard(){
         System.out.println("Please type the card number");
         System.out.println("Please type the owner of card");
         System.out.println("Please type the card holder");
+        System.out.println("b. Back to start menu");
 
+    }
+    public void OrderClaimSelect(){
+        System.out.println("Please select the order option.");
+        System.out.println("1. order");
+    }
+    public void OrderInsuranceCardSelect(){
+        System.out.println("Please select the order option.");
+        System.out.println("1. order");
+    }
+    public void OrderCustomerSelect(){
+        System.out.println("Please select the order option.");
+        System.out.println("1. order");
     }
     public void CRUDFunctionsSelection(String Object, String ID){
 
+
+    }
+
+
+    private ArrayList<String> returnIncludeKeywords(String object, String keywords) {
+        ArrayList<String> result = null;
+        switch(object){
+
+            case "Claim":
+            case "Customer":
+            case "InsuranceCard":
+                String projectRoot = System.getProperty("user.dir");
+                String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" + object + "s/";
+                int index = 0;
+                try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(path), keywords + "*.txt")) {
+                    for (Path entry: stream) {
+                        System.out.printf("%d. ",index);
+                        System.out.println(entry.getFileName());
+                        result.add(""+entry.getFileName());
+                        index+=1;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("It is not a valid option");
+                return result;
+        }
+            return result;
     }
 
 

@@ -50,6 +50,22 @@ public class Claim implements  Serializable,Save{
         Save("Customers",InsurancedPerson.getID(),InsurancedPerson);
     }
 
+    public void setClaimDate(LocalDate claimDate) {
+        ClaimDate = claimDate;
+    }
+
+    public void setExamDate(LocalDate examDate) {
+        ExamDate = examDate;
+    }
+
+    public void setListOfDocuments(File listOfDocuments) {
+        ListOfDocuments = listOfDocuments;
+    }
+
+    public void setReceiverBankingInfo(String receiverBankingInfo) {
+        ReceiverBankingInfo = receiverBankingInfo;
+    }
+
     public int getClaimAmount() {
         return ClaimAmount;
     }
