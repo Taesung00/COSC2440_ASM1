@@ -116,7 +116,7 @@ public class UserInterface {
 
     }
     private void add(){}
-    private void delete(){
+    private void deleteSelect(){
         System.out.println("Please type the claim id number.");
         System.out.println("b. Back to start menu.");
         String idNum = scanner.next();
@@ -144,6 +144,9 @@ public class UserInterface {
         System.out.println("Please type the card number");
         System.out.println("Please type the owner of card");
         System.out.println("Please type the card holder");
+
+    }
+    public void CRUDFunctionsSelection(String Object, String ID){
 
     }
 

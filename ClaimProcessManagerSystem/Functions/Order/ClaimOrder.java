@@ -47,7 +47,7 @@ public class ClaimOrder{
         Claim temp = null;
 
         for(int i = 0; i<ClaimList.size()-1;i++){
-            for(int j = 0; j<ClaimList.size()-i;j++){
+            for(int j = 0; j<ClaimList.size()-i-1;j++){
                 if(ClaimList.get(j).getClaimStatus() == Claim.Status.Done){
                     if(ClaimList.get(j+1).getClaimStatus() == Claim.Status.New || ClaimList.get(j+1).getClaimStatus() == Claim.Status.Processing){
                         temp = ClaimList.get(j);
