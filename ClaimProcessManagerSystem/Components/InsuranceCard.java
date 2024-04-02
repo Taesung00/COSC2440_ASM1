@@ -26,8 +26,12 @@ public class InsuranceCard implements Serializable,Save {
         cardHolder.setInsuranceCard(this);
         this.ExpirationDate = expirationDate;
         this.cardHolder = cardHolder;
-        Save("InsuranceCards",""+this.CardNum,this);
+        Save("InsuranceCards","I-"+this.CardNum,this);
         Save("Customers",""+cardHolder.getID(),policyOwner);
+    }
+
+    public int getCardNum() {
+        return CardNum;
     }
 
     @Override

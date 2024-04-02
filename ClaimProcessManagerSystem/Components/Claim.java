@@ -1,8 +1,6 @@
 package Components;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.time.LocalDate;
 
 import Functions.Save;
@@ -16,7 +14,8 @@ public class Claim implements  Serializable,Save{
     private String ID;
     private LocalDate ClaimDate;
     private Customer InsurancedPerson;
-    private String CardNum;
+    private InsuranceCard Card;
+    private int CardNum = Card.getCardNum();
     private LocalDate ExamDate;
     private File ListOfDocuments; /* Adding java file functions*/
     private int ClaimAmount;
@@ -26,7 +25,7 @@ public class Claim implements  Serializable,Save{
     private Status ClaimStatus;
     private String ReceiverBankingInfo;
 
-    public String getCardNum() {
+    public int getCardNum() {
         return CardNum;
     }
 
@@ -37,14 +36,14 @@ public class Claim implements  Serializable,Save{
 
     public Claim(){
     }
-    public Claim(int ID, LocalDate ClaimDate,Customer InsurancedPerson, int CardNum, LocalDate ExamDate,File Documents,int ClaimAmount,Status Status) throws IOException {
+    public Claim(int ID, LocalDate ClaimDate,Customer InsurancedPerson, InsuranceCard InsuranceCard, LocalDate ExamDate,int ClaimAmount) throws IOException {
         this.ID = "F-"+ID;
         this.ClaimDate = ClaimDate;
         this.InsurancedPerson = InsurancedPerson;
         this.ExamDate = ExamDate;
-        this.ListOfDocuments = Documents;
         this.ClaimAmount = ClaimAmount;
         this.ClaimStatus = Status.New;
+        this.CardNum = InsuranceCard.getCardNum();
         InsurancedPerson.addClaim(this);
         Save("Claims",this.ID,this);
         Save("Customers",InsurancedPerson.getID(),InsurancedPerson);
@@ -85,6 +84,9 @@ public class Claim implements  Serializable,Save{
     public void setClaimStatus(Status claimStatus) {
         ClaimStatus = claimStatus;
     }
+
+    public void addDocuments(File documents){}/*나중에 업데이트하기*/
+    public void getDocuments(){}
 
     @Override
     public String toString() {

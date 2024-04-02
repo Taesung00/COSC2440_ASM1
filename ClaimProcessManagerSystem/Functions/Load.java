@@ -1,6 +1,8 @@
 package Functions;
 
 import Components.Claim;
+import Components.Customer;
+import Components.InsuranceCard;
 
 import java.awt.*;
 import java.io.*;
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class Load implements Serializable {
 
-    public void ListAllComponents() {
+    public static void ListAllComponents() {
         ArrayList<String> componentFolders = new ArrayList<String>(Arrays.asList("Claims", "Customers", "InsuranceCards"));
         for (String component : componentFolders){
             String projectRoot = System.getProperty("user.dir");
@@ -40,7 +42,7 @@ public class Load implements Serializable {
             }
         }
     }
-    public String returnAllFilesStartWith(String startWord) {
+    public static String returnAllFilesStartWith(String startWord) {
         String projectRoot = System.getProperty("user.dir");
         String path = "";
         ArrayList<Object> results = new ArrayList<>();
@@ -77,6 +79,72 @@ public class Load implements Serializable {
         return "" + results;
 
     }
+    public static Claim returnClaim(String claimID){
+        String projectRoot = System.getProperty("user.dir");
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Claims";
+        File folder = new File(path);
+        File[] FileList = folder.listFiles();
+        Claim obj = null;
+        for (File f : FileList) {
+            String name = f.getName();
+            if (f.isFile() && name.startsWith(claimID)) {
+                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
+                    obj = (Claim) input.readObject();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return obj;
+    }
+    public static InsuranceCard returnInsuranceCard(String insuranceCardID){
+        String projectRoot = System.getProperty("user.dir");
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/InsuranceCards";
+        File folder = new File(path);
+        File[] FileList = folder.listFiles();
+        InsuranceCard obj = null;
+        for (File f : FileList) {
+            String name = f.getName();
+            if (f.isFile() && name.startsWith(insuranceCardID)) {
+                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
+                    obj = (InsuranceCard) input.readObject();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return obj;
+    }
+    public static Customer returnCustomer(String customerID){
+        String projectRoot = System.getProperty("user.dir");
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Customers";
+        File folder = new File(path);
+        File[] FileList = folder.listFiles();
+        Customer obj = null;
+        for (File f : FileList) {
+            String name = f.getName();
+            if (f.isFile() && name.startsWith(customerID)) {
+                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
+                    obj = (Customer) input.readObject();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return obj;
+    }
+
+
+
 
     public static ArrayList<String> returnAllFileNamesStartWith(String startWord) {
         String projectRoot = System.getProperty("user.dir");
@@ -89,7 +157,7 @@ public class Load implements Serializable {
             case "f-":
                 path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Customers";
                 break;
-            case "I-":
+            case "I-" /*Insurance card*/:
                 path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/InsuranceCards";
                 break;
             default:
