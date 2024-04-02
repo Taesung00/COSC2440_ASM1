@@ -189,17 +189,16 @@ public class UserInterface {
                 createCustomer();
                 break;
             case "3":
-                createInsuranceCard();
+                createCard();
                 break;
             default:
                 System.out.println("Invalid input.");
                 break;
     }}
-    public void createInsuranceCard() throws IOException{}
+
     public void createCustomer() throws IOException {
         System.out.println("Please type the customer ID number");
         System.out.println("ID duplication is not accepted");
-        System.out.println("ID cannot be existed if it is currently updated.\n");
         System.out.println("Existed customer's ID in our database : ");
         li.printAllFilesStartWith("f-");
         String ID = scanner.nextLine();
@@ -257,7 +256,96 @@ public class UserInterface {
         }
 
     }
-    public void createCard(){}
+    public void createCard() throws IOException{
+        int ID;
+        String customerID;
+        System.out.println("Please type the Insurance card ID number");
+        System.out.println("Current added ID should not be existed in our database\n");
+        System.out.println("Existed insurance card ID in our database : ");
+        li.printAllFilesStartWith("I-");
+        while (true){
+            System.out.println("Please type 0, if you want to back to mainmenu.");
+            ID = scanner.nextInt();
+            if(ID==0){
+                startMenu();
+            }
+            if(duplicationClarify("I-"+ID)){
+                break;
+            }
+            System.out.println("Insurance card ID number is already existed in our database, please try again");
+        }
+        System.out.println("Please type the card holder's customer ID");
+        System.out.println("Customers in database : ");
+        li.printAllFilesStartWith("C-");
+        while (true){
+            customerID = scanner.nextLine();
+            System.out.println("Please type 0, if you want to back to mainmenu.");
+            if(customerID == "0"){
+                startMenu();
+            }
+            if(!duplicationClarify("C-"+customerID)){
+                Customer targetCustomer = Load.returnCustomer("C-"+customerID);
+                System.out.println("Customer is now clarified");
+                break;
+            }
+            System.out.println("Customer is not existed in our database");
+        }
+        System.out.println("Please type the policy owner of this card.");
+        String policyOwner = scanner.nextLine();
+        System.out.println("Please type the expiration year");
+        int examYear = scanner.nextInt();
+        System.out.println("Please type the expiration month");
+        int examMonth = scanner.nextInt();
+        System.out.println("Please type the expiration day");
+        int examDay = scanner.nextInt();
+        LocalDate examDate = LocalDate.of(examYear, examMonth, examDay);
+        while (true){
+            System.out.println("Please check the information");
+            System.out.println("Card ID : C-"+ ID);
+            Customer cardHolder = Load.returnCustomer("C-"+ID);
+            System.out.println("Card holder information : "+cardHolder.toString());
+            System.out.println("Policy owner : "+policyOwner);
+            System.out.printf("Exam date : "+examDate);
+            System.out.println("\n");
+            System.out.println("If information is all correct, type Y");
+            System.out.println("Or information is not correct and go back to main, type N");
+            String response = scanner.nextLine();
+            switch (response){
+                case ("y"):
+                case ("Y"):
+                    InsuranceCard card = new InsuranceCard((int)ID,cardHolder,examDate,policyOwner);
+                    System.out.println("Claim is completely updated in database");
+                    System.out.println("Please update the list of document in update menu.");
+                    System.out.println("If you want to add claim, press 1");
+                    System.out.println("If you want to add customer, press 2.");
+                    System.out.println("If you want to add more insurance card, press 3");
+                    System.out.println("If you want to back main menu, type b");
+
+                    while (true){
+                        String sc = scanner.nextLine();
+                        switch (sc){
+                            case "2":createCustomer();
+                            case "3":createCard();
+                            case "1":createClaim();
+                            case "b":startMenu();
+                            default:
+                                System.out.println("Invalid output. Please type again.");
+                        }
+
+                    }
+                case "n":
+                case "N":
+                    System.out.println("Going to main menu...\n");
+                    break;
+                default:
+                    System.out.println("Invalid input, try again.");
+            }
+
+        }
+
+
+
+    }
 
     public void createClaim() throws IOException {
         int ID;
