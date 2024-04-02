@@ -17,7 +17,6 @@ import Components.*;
 
 public class main {
     public static void main(String[] args) throws IOException, ParseException {
-        Customer c2 = new Customer(12453,"Huy");
         Load l1 = new Load();
         l1.printAllFilesStartWith("C-");
     }

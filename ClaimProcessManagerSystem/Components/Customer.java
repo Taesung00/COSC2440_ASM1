@@ -19,7 +19,7 @@ public class Customer implements Serializable,Save{
     private ArrayList<Claim> Claims = null;
 
     public Customer(){}
-    public Customer(int ID, String FullName) throws IOException {
+    public Customer(String ID, String FullName) throws IOException {
         this.ID = "C-"+ID;
         this.FullName = FullName;
         Save("Customers",this.ID,this);

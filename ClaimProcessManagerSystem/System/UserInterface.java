@@ -19,6 +19,8 @@ import java.util.Scanner;
 
 
 public class UserInterface {
+    Load li = new Load();
+
     public static void main(String[] args) throws IOException {
         UserInterface u1 = new UserInterface();
         u1.startMenu();
@@ -189,19 +191,75 @@ public class UserInterface {
             case "3":
                 createInsuranceCard();
                 break;
-            case "4":
-                // 4번 메뉴 코드를 여기에 추가
-                break;
             default:
                 System.out.println("Invalid input.");
                 break;
     }}
-    public void createInsuranceCard(){}
-    public void createCustomer(){}
+    public void createInsuranceCard() throws IOException{}
+    public void createCustomer() throws IOException {
+        System.out.println("Please type the customer ID number");
+        System.out.println("ID duplication is not accepted");
+        System.out.println("ID cannot be existed if it is currently updated.\n");
+        System.out.println("Existed customer's ID in our database : ");
+        li.printAllFilesStartWith("f-");
+        String ID = scanner.nextLine();
+        while (true){
+            System.out.println("Please type 0, if you want to back to mainmenu.");
+            if(ID=="0"){
+                startMenu();
+            }
+            if(duplicationClarify("f-"+ID)){
+                break;
+            }
+            System.out.println("Claim ID number is already existed in our database, please try again");
+        }
+        System.out.println("Please type the customer's full name.");
+        String targetFullName = scanner.nextLine();
+        System.out.println("Please check the information.");
+        System.out.println("Customer's ID: "+ID+",Full name : "+targetFullName);
+        while (true){
+            System.out.println("If information is correct, please type Y.");
+            System.out.println("Or if you want to back to create customer, type N.");
+            System.out.println("If you want to back to main menu, type M");
+            String select = scanner.nextLine();
+            switch (select){
+                case "Y":
+                case "y":
+                    Customer c1 = new Customer(ID,targetFullName);
+                    System.out.println("Customer is completely saved in database");
+                    System.out.println("If you want to add claim, press 1");
+                    System.out.println("If you want to add more customer, press 2.");
+                    System.out.println("If you want to add insurance card, press 3");
+                    System.out.println("If you want to back main menu, type b");
+
+                    while (true){
+                        String sc = scanner.nextLine();
+                        switch (sc){
+                            case "2":createCustomer();
+                            case "3":createCard();
+                            case "1":createClaim();
+                            case "b":startMenu();
+                            default:
+                                System.out.println("Invalid output. Please type again.");
+                        }
+
+                    }
+
+                case "N":
+                case "n":
+                    createCustomer();
+                case "M":
+                case "m":
+                    startMenu();
+            }
+
+
+        }
+
+    }
     public void createCard(){}
 
     public void createClaim() throws IOException {
-        Load li = new Load();
         int ID;
         String CardNum;
         String Customer;
@@ -287,15 +345,30 @@ public class UserInterface {
             System.out.println("\n");
             System.out.println("If information is all correct, type Y");
             System.out.println("Or information is not correct and go back to main, type N");
-            String sc = scanner.nextLine();
-            switch (sc){
+            String response = scanner.nextLine();
+            switch (response){
                 case ("y"):
                 case ("Y"):
                     Claim cl = new Claim(ID,claimDate,targetCustomer,targetCard,examDate,claimAmount);
                     System.out.println("Claim is completely updated in database");
                     System.out.println("Please update the list of document in update menu.");
-                    startMenu();
-                    break;
+                    System.out.println("If you want to add more claim, press 1");
+                    System.out.println("If you want to add customer, press 2.");
+                    System.out.println("If you want to add insurance card, press 3");
+                    System.out.println("If you want to back main menu, type b");
+
+                    while (true){
+                        String sc = scanner.nextLine();
+                        switch (sc){
+                            case "2":createCustomer();
+                            case "3":createCard();
+                            case "1":createClaim();
+                            case "b":startMenu();
+                            default:
+                                System.out.println("Invalid output. Please type again.");
+                        }
+
+                    }
                 case "n":
                 case "N":
                     System.out.println("Going to main menu...\n");
@@ -308,7 +381,6 @@ public class UserInterface {
 
     }
     private void deleteSelect(){
-
             System.out.println("Plase the type you want to delete from database.");
             System.out.println("1. Claim");
             System.out.println("2. Customer");

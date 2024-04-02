@@ -86,6 +86,7 @@ public class Claim implements  Serializable,Save{
     }
 
     public void addDocuments(File documents){}/*나중에 업데이트하기*/
+    public void deleteDocument(File documents){}
     public void getDocuments(){}
 
     @Override
