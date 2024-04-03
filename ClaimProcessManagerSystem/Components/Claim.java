@@ -15,7 +15,7 @@ public class Claim implements  Serializable,Save{
     private LocalDate ClaimDate;
     private Customer InsurancedPerson;
     private InsuranceCard Card;
-    private int CardNum = Card.getCardNum();
+    private String CardNum = String.valueOf(Card.getCardNum());
     private LocalDate ExamDate;
     private File ListOfDocuments; /* Adding java file functions*/
     private int ClaimAmount;
@@ -25,7 +25,11 @@ public class Claim implements  Serializable,Save{
     private Status ClaimStatus;
     private String ReceiverBankingInfo;
 
-    public int getCardNum() {
+    public InsuranceCard getCard() {
+        return Card;
+    }
+
+    public String getCardNum() {
         return CardNum;
     }
 
@@ -43,7 +47,7 @@ public class Claim implements  Serializable,Save{
         this.ExamDate = ExamDate;
         this.ClaimAmount = ClaimAmount;
         this.ClaimStatus = Status.New;
-        this.CardNum = InsuranceCard.getCardNum();
+        this.CardNum = String.valueOf(InsuranceCard.getCardNum());
         InsurancedPerson.addClaim(this);
         Save("Claims",this.ID,this);
         Save("Customers",InsurancedPerson.getID(),InsurancedPerson);
@@ -85,8 +89,8 @@ public class Claim implements  Serializable,Save{
         ClaimStatus = claimStatus;
     }
 
-    public void addDocuments(File documents){}/*나중에 업데이트하기*/
-    public void deleteDocument(File documents){}
+    public void addDocuments(String document){}/*나중에 업데이트하기*/
+    public void deleteDocument(String document){}
     public void getDocuments(){}
 
     public Customer getInsurancedPerson() {

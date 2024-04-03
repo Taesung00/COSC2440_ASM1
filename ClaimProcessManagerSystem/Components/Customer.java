@@ -35,6 +35,10 @@ public class Customer implements Serializable,Save{
         Save("Claims",this.ID,this);
     }
 
+    public Components.InsuranceCard getInsuranceCard() {
+        return InsuranceCard;
+    }
+
     public String getFullName() {
         return FullName;
     }
