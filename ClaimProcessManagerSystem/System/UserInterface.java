@@ -5,7 +5,11 @@ import Components.Customer;
 import Components.InsuranceCard;
 import Functions.Load;
 import Functions.Save;
+import Functions.delete;
+
 import static Functions.Clarification.duplicationClarify;
+import static Functions.Load.returnClaim;
+import static Functions.Load.returnCustomer;
 
 
 import java.io.*;
@@ -468,7 +472,7 @@ public class UserInterface {
         }
 
     }
-    private void deleteSelect(){
+    private void deleteSelect() throws IOException {
             System.out.println("Plase the type you want to delete from database.");
             System.out.println("1. Claim");
             System.out.println("2. Customer");
@@ -476,6 +480,7 @@ public class UserInterface {
             System.out.println("b. Back to start menu");
         String deleteOption = scanner.nextLine();
         switch (deleteOption) {
+            case "B":
                 case "b":
                     System.out.println("Back to start menu...");
                     System.out.println("");
@@ -496,30 +501,195 @@ public class UserInterface {
                     System.out.println("Invalid input.");
                     break;
     }}
-    private void deleteClaim(){
+    private void deleteClaim() throws IOException {
+        System.out.println("Please type the claim ID");
+        /*claim list들*/
+        li.printAllFilesStartWith("f-");
+        String ID = scanner.nextLine();
+        while (true){
+            System.out.println("Please type 0, if you want to back to mainmenu.");
+            if(ID=="0"){
+                startMenu();
+            }
+            if(!duplicationClarify("F-"+ID)){
+                String deleteAffirm = scanner.nextLine();
+                System.out.println("Are you sure to delete this data permanently? (y/n)");
+                switch (deleteAffirm){
+                    case "Y":
+                    case "y":
+                        delete.delete("Claims","F-"+ID);
+                        System.out.println("Claim is completely deleted.\n Do you want to delete customer and insurance card related with it press Y" +
+                                "If you want to back main menu, press b");
+                        while (true){
+                            String selection = scanner.nextLine();
+                            switch (selection){
+                                case "Y":
+                                case "y":
+                                    Claim targetClaim = returnClaim("F-"+ID);
+                                    /*연결되어 있는게 해제되게 하는 코드*/
+                                case "B":
+                                case "b":
+                                    startMenu();
+                                default:
+                                    System.out.println("Invalid option. Please type correctly");
+
+                            }
+
+                        }
+                    case "N":
+                    case "n":
+                        System.out.println("If you want to back to delete menu, press d");
+                        System.out.println("If you want to back to start menu, press b");
+                        while (true){
+                            String selection = scanner.nextLine();
+                            switch (selection){
+                                case "D":
+                                case "d":
+                                deleteClaim();
+                                case "B":
+                                case "b":
+                                    startMenu();
+                                default:
+                                    System.out.println("Invalid option. Please type correctly");
+
+                            }
+
+                        }
+                    default:
+                        System.out.println("Invalid option. Please type correctly");
+                }
+                break;
+            }
+            System.out.println("Claim ID number is already existed in our database, please try again");
+        }
+
 
     }
-    private void deleteCustomer(){
+    private void deleteCustomer() throws IOException {
+        System.out.println("Please type the customer ID");
+        /*claim list들*/
+        li.printAllFilesStartWith("c-");
+        String ID = scanner.nextLine();
+        while (true){
+            System.out.println("Please type 0, if you want to back to mainmenu.");
+            if(ID=="0"){
+                startMenu();
+            }
+            if(!duplicationClarify("c-"+ID)){
+                String deleteAffirm = scanner.nextLine();
+                System.out.println("Are you sure to delete this data permanently? (y/n)");
+                switch (deleteAffirm){
+                    case "Y":
+                    case "y":
+                        delete.delete("Customers","c-"+ID);
+                        System.out.println("Customer is completely deleted.\n Do you want to delete claims and insurance cards related with it press Y" +
+                                "If you want to back main menu, press b");/*나중에 같이 연결성 해제되게 할것*/
+                        while (true){
+                            String selection = scanner.nextLine();
+                            switch (selection){
+                                case "Y":
+                                case "y":
+                                    Customer targetCustomer = returnCustomer("c-"+ID);
+                                    /*연결되어 있는게 해제되게 하는 코드*/
+                                case "B":
+                                case "b":
+                                    startMenu();
+                                default:
+                                    System.out.println("Invalid option. Please type correctly");
+
+                            }
+
+                        }
+                    case "N":
+                    case "n":
+                        System.out.println("If you want to back to delete menu, press d");
+                        System.out.println("If you want to back to start menu, press b");
+                        while (true){
+                            String selection = scanner.nextLine();
+                            switch (selection){
+                                case "D":
+                                case "d":
+                                    deleteClaim();
+                                case "B":
+                                case "b":
+                                    startMenu();
+                                default:
+                                    System.out.println("Invalid option. Please type correctly");
+
+                            }
+
+                        }
+                    default:
+                        System.out.println("Invalid option. Please type correctly");
+                }
+                break;
+            }
+            System.out.println("Claim ID number is already existed in our database, please try again");
+        }
 
     }
-    private void deleteInsuranceCard(){
+    private void deleteInsuranceCard() throws IOException {
+        System.out.println("Please type the insurance card ID");
+        li.printAllFilesStartWith("I-");
+        String ID = scanner.nextLine();
+        while (true){
+            System.out.println("Please type 0, if you want to back to mainmenu.");
+            if(ID=="0"){
+                startMenu();
+            }
+            if(!duplicationClarify("I-"+ID)){
+                String deleteAffirm = scanner.nextLine();
+                System.out.println("Are you sure to delete this data permanently? (y/n)");
+                switch (deleteAffirm){
+                    case "Y":
+                    case "y":
+                        delete.delete("InsuranceCards","I-"+ID);
+                        System.out.println("Insurance card is completely deleted.\n Do you want to delete claims and insurance cards related with it press Y" +
+                                "If you want to back main menu, press b");/*나중에 같이 연결성 해제되게 할것*/
+                        while (true){
+                            String selection = scanner.nextLine();
+                            switch (selection){
+                                case "Y":
+                                case "y":
+                                    Customer targetCustomer = returnCustomer("c-"+ID);
+                                    /*연결되어 있는게 해제되게 하는 코드*/
+                                case "B":
+                                case "b":
+                                    startMenu();
+                                default:
+                                    System.out.println("Invalid option. Please type correctly");
+
+                            }
+
+                        }
+                    case "N":
+                    case "n":
+                        System.out.println("If you want to back to delete menu, press d");
+                        System.out.println("If you want to back to start menu, press b");
+                        while (true){
+                            String selection = scanner.nextLine();
+                            switch (selection){
+                                case "D":
+                                case "d":
+                                    deleteClaim();
+                                case "B":
+                                case "b":
+                                    startMenu();
+                                default:
+                                    System.out.println("Invalid option. Please type correctly");
+
+                            }
+
+                        }
+                    default:
+                        System.out.println("Invalid option. Please type correctly");
+                }
+                break;
+            }
+            System.out.println("Claim ID number is already existed in our database, please try again");
+        }
 
     }
-    public void deleteClaimSelect(String ID){
-        String deleteAffirm = scanner.nextLine();
-        System.out.println("Are you sure to delete this data permanently? (y/n)");
-    }
-    public void deleteCustomerSelect(String ID){
-        String deleteAffirm = scanner.nextLine();
-        System.out.println("Are you sure to delete this data permanently? (y/n)");
-
-    }
-    public void deleteInsuranceCardSelect(String ID){
-        String deleteAffirm = scanner.nextLine();
-        System.out.println("Are you sure to delete this data permanently? (y/n)");
-    }
-
-
 
     public void searchSelect(){
 

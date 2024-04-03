@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class delete {
-        public void delete(String Object,String ID) {
+        public static void delete(String Object,String ID) {
             String projectRoot = System.getProperty("user.dir");
             String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" +Object;
             try {
