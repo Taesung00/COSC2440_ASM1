@@ -2,6 +2,7 @@ package Functions.Search;
 
 import Components.Claim;
 import Components.Customer;
+import Components.InsuranceCard;
 import Functions.Order.CustomerOrder;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class customerSearch {
     public static Customer customerSearchCustomerID(String ID){
         Customer result = null;
         for(Customer customer : customers){
-            if(customer.getID() == ID){
+            if((customer.getID()).equals(ID)){
                 result = customer;
             }
         }
@@ -20,7 +21,7 @@ public class customerSearch {
     public static Customer customerSearchCustomerName(String name){
         Customer result = null;
         for(Customer customer : customers){
-            if(customer.getFullName() == name){
+            if((customer.getFullName()).equals(name)){
                 result = customer;
             }
         }
@@ -29,12 +30,28 @@ public class customerSearch {
     public static Customer customerSearchInsuranceCardID(String ID){
         Customer result = null;
         for(Customer customer : customers){
-            if("I-"+customer.getInsuranceCard().getCardNum() == ID){
+            if(("I-"+customer.getInsuranceCard().getCardNum()).equals(ID)){
                 result = customer;
             }
         }
         return result;
 
+    }
+    public static boolean customerSearchClarification(String name){
+        for(Customer c : customers){
+            if(!(c.getFullName().equals(name))){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean customerSearchClarificationID(String IDnum){
+        for(Customer c : customers){
+            if(!(c.getID().equals("c-"+IDnum))){
+                return false;
+            }
+        }
+        return true;
     }
 
 

@@ -10,7 +10,7 @@ public class claimSearch {
     public static ArrayList<Claim> claimSearchCustomerID(String customerID){
         ArrayList<Claim> result = null;
         for(Claim Claim : claims){
-            if(Claim.getInsurancedPerson().getID() == customerID){
+            if(Claim.getInsurancedPerson().getID().equals(customerID)){
                 result.add(Claim);
             }
         }
@@ -19,7 +19,7 @@ public class claimSearch {
     public static Claim claimSearchClaimID(String ClaimID){
         Claim result = null;
         for(Claim Claim : claims){
-            if(Claim.getID() == ClaimID){
+            if(Claim.getID().equals(ClaimID)){
                 result = Claim;
             }
         }
@@ -29,7 +29,7 @@ public class claimSearch {
     public static ArrayList<Claim> claimSearchInsuranceCardNum(String insuranceCardNum){
         ArrayList<Claim> result = null;
         for(Claim claim : claims){
-            if(claim.getCardNum() == insuranceCardNum){
+            if(claim.getCardNum().equals(insuranceCardNum)){
                 result.add(claim);
             }
         }
@@ -38,7 +38,7 @@ public class claimSearch {
     public static ArrayList<Claim> claimSearchStatus(Enum Status){
         ArrayList<Claim> result = null;
         for(Claim Claim : claims){
-            if(Claim.getClaimStatus() == Status){
+            if(Claim.getClaimStatus().equals(Status)){
                 result.add(Claim);
             }
         }

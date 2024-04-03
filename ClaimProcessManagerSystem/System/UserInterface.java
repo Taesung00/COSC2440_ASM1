@@ -3,8 +3,12 @@ package System;
 import Components.Claim;
 import Components.Customer;
 import Components.InsuranceCard;
+import Functions.Clarification;
 import Functions.Load;
 import Functions.Save;
+import Functions.Search.claimSearch;
+import Functions.Search.customerSearch;
+import Functions.Search.insuranceCardSearch;
 import Functions.delete;
 
 import static Functions.Clarification.duplicationClarify;
@@ -721,7 +725,7 @@ public class delete{
             }
 
         }
-        private static void searchSelectOptionClaim(){
+        private static void searchSelectOptionClaim() throws IOException {
             System.out.println("Please select the search option.");
             System.out.println("1. Customer ID");
             System.out.println("2. Claim ID");
@@ -731,21 +735,166 @@ public class delete{
             while (true){
                 String searchOption = scanner.nextLine();
                 switch (searchOption){
-                    case "1":
-
-                    case "2":
-
-                    case "3":
-
-                    case "4":
-                    case "5":
                     case "b":
-                    default:System.out.println("Invalid input, please type again.");
-                }
+                        startMenu();
+                        break;
+                    default:
+                        System.out.println("Invalid input, please type again.");
+                    case "1":
+                        System.out.println("Please type the customer ID number. ID number must be more than 10 digits.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(!Clarification.duplicationClarify("c-"+input)){
+                            ArrayList<Claim> claims = claimSearch.claimSearchCustomerID("c-"+input);
+                            for(Claim c : claims){
+                                System.out.println(c);
+                            }
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelectOptionClaim();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
+                    case "2":
+                        System.out.println("Please type the claim ID number. ID number must be more than 10 digits.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(!Clarification.duplicationClarify("f-"+input)){
+                                System.out.println(claimSearch.claimSearchClaimID("f-"+input));
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelectOptionClaim();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
+                    case "3":
+                        System.out.println("Please type the insurance card ID number. ID number must be more than 10 digits.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(!Clarification.duplicationClarify("I-"+input)){
+                                ArrayList<Claim> claims = claimSearch.claimSearchCustomerID("I-"+input);
+                                for(Claim c : claims){
+                                    System.out.println(c);
+                                }
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelectOptionClaim();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
+                    case "4":
+                        ArrayList<Claim> claims = null;
+                        System.out.println("Please type the claim status you want to search.");
+                        System.out.println("New/Processing/Done");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true) {
+                            String input = scanner.nextLine();
+                        switch (input){
+                            case "New":
+                                claims = claimSearch.claimSearchStatus(Claim.Status.New);
+                                for(Claim c : claims){
+                                    System.out.println(c);
+                                }
+                                break;
+
+                            case "Processing":
+                                claims = claimSearch.claimSearchStatus(Claim.Status.Processing);
+                                for(Claim c : claims){
+                                    System.out.println(c);
+                                }
+                                break;
+
+                            case "Done":
+                                claims = claimSearch.claimSearchStatus(Claim.Status.Done);
+                                for(Claim c : claims){
+                                    System.out.println(c);
+                                }
+                                break;
+                            case "0": startMenu();
+                                break;
+
+                        }
+                            System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                            while (true){
+                                input = scanner.nextLine();
+                                switch (input){
+                                    case "1":
+                                        searchSelectOptionClaim();
+                                        break;
+                                    case"b":
+                                    case"B":
+                                        startMenu();
+                                        break;
+                                    default: System.out.println("Invalid input. Please type again.");
+                                }
+                            }
+                        }
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelectOptionClaim();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
             }
 
-
-        }
+                }
         private static void searchSelectOptionCustomer(){
             System.out.println("Please select the search option.");
             System.out.println("1. Customer ID");
@@ -770,29 +919,79 @@ public class delete{
 
 
         }
-        private static void searchSelectOptionInsuranceCard(){
+        private static void searchSelectOptionInsuranceCard() throws IOException {
             System.out.println("Please select the search option.");
             System.out.println("1. Card number");
-            System.out.println("2. Cardholder name");
-            System.out.println("3. Policy owner");
+            System.out.println("2. Card holder full name");
             System.out.println("b. Back to start menu");
             while (true){
                 String searchOption = scanner.nextLine();
                 switch (searchOption){
                     case "1":
-
+                        System.out.println("Please type the card number. Card number must be more than 10 digits.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(!Clarification.duplicationClarify("I-"+input)){
+                                ArrayList<InsuranceCard> card = insuranceCardSearch.insuranceCardSearchCardNumber(input);
+                                System.out.println(card);
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelectOptionClaim();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
                     case "2":
-
-                    case "3":
-
-
+                        System.out.println("Please type the card holder's full name.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(insuranceCardSearch.insuranceCardSearchClarification(input)){
+                                System.out.println(insuranceCardSearch.insuranceCardSearchCustomerName(input));
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelectOptionClaim();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
                     case "b":
+                        startMenu();
                     default:System.out.println("Invalid input, please type again.");
                 }
             }
 
         }
-        private void searchCustomer(){
+        private void searchCustomer() throws IOException {
             System.out.println("1. Type the customer ID");
             System.out.println("2. Type the name");
             System.out.println("b. Back to start menu");
@@ -800,16 +999,70 @@ public class delete{
                 String searchOption = scanner.nextLine();
                 switch (searchOption){
                     case "1":
-
+                        System.out.println("Please type the customers full name.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(customerSearch.customerSearchClarification(input)){
+                                System.out.println(customerSearch.customerSearchCustomerName(input));
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same name in customer database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelectOptionClaim();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
                     case "2":
-
+                        System.out.println("Please type the customer's ID number.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(customerSearch.customerSearchClarificationID(input)){
+                                System.out.println(customerSearch.customerSearchInsuranceCardID(input));
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same name in customer database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelectOptionClaim();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }}
                     case "b":
-                    default:System.out.println("Invalid input, please type again.");
+                        startMenu();
+                        break;
+                    default:
+                        System.out.println("Invalid input, please type again.");
                 }
             }
+        }
 
         }
-    }
 
 
 
