@@ -214,42 +214,6 @@ public class Load implements Serializable {
         }
 
     }
-//                    break;
-//            case "f":
-//    path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Customers";
-//                break;
-//            case "I":
-//    path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/InsuranceCards";
-//                break;
-//    default:
-//            System.out.println("Invalid type: " + componentType);
-//}
 
-//    public ArrayList<Claim> LoadAllClaim(){
-//        return LoadAllComponent("Cl");
-//    }
-
-//    public void ListOneComponent(String componentType) {
-//        String projectRoot = System.getProperty("user.dir");
-//        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" +componentType;
-//        File folder = new File(path);
-//        if (!folder.exists() || !folder.isDirectory()) {
-//            System.out.printf("There's no Data in %s folder\n",componentType);
-//            return;
-//            }
-//            File[] listOfFiles = folder.listFiles();
-//            for (File file : listOfFiles) {
-//                if (file.isFile() && file.getName().endsWith(".txt")) {
-//                    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-//                        String line;
-//                        while ((line = reader.readLine()) != null) {
-//                            System.out.println(line);
-//                        }
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-//            }
-//        }
     }
 

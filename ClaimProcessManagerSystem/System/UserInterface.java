@@ -727,7 +727,6 @@ public class delete{
             System.out.println("2. Claim ID");
             System.out.println("3. Insurance card ID");
             System.out.println("4. Status");
-            System.out.println("5. Insurance Card ");
             System.out.println("b. Back to start menu");
             while (true){
                 String searchOption = scanner.nextLine();
@@ -858,7 +857,6 @@ public class delete{
         public void UpdateInsuranceCardSelect(String ID){
             System.out.println("Please select the update option");
             System.out.println("1. Change expiration date ");
-            System.out.println("2. Change policy owner ");
             System.out.println("b. Back");
             String searchOption = scanner.nextLine();
 
@@ -874,7 +872,6 @@ public class delete{
     public ArrayList<String> returnIncludeKeywords(String object, String keywords) {
         ArrayList<String> result = null;
         switch(object){
-
             case "Claim":
             case "Customer":
             case "InsuranceCard":

@@ -10,8 +10,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class CustomerOrder extends ClaimOrder{
-    public ArrayList<Customer> LoadAllCustomer() {
-        /* 나중에 LoadAll로 따로 인터페이스 빼놓을것*/
+    public static ArrayList<Customer> LoadAllCustomer() {
 
         String projectRoot = System.getProperty("user.dir");
         ArrayList<Customer> results = new ArrayList<>();

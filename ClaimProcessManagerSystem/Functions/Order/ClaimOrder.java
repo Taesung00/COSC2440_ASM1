@@ -69,7 +69,7 @@ public class ClaimOrder{
 
 
 
-    public ArrayList<Claim> LoadAllClaim() {
+    public static ArrayList<Claim> LoadAllClaim() {
         /* 나중에 LoadAll로 따로 인터페이스 빼놓을것*/
         String projectRoot = System.getProperty("user.dir");
         ArrayList<Claim> results = new ArrayList<>();
@@ -88,4 +88,6 @@ public class ClaimOrder{
             }
         }
         return results;    }
+
+
 }

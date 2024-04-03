@@ -19,8 +19,6 @@ public interface Save extends Serializable {
             out.writeObject(obj);
             out.close();
             fileOut.close();
-            System.out.printf("Serialized data for %s is saved ", ComponentName);
-            System.out.println(" ");
         } catch (IOException i) {
             i.printStackTrace();
         }

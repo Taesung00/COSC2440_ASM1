@@ -10,7 +10,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class InsuranceCardOrder {
-    public ArrayList<InsuranceCard> LoadAllInsuranceCard() {
+    public static ArrayList<InsuranceCard> LoadAllInsuranceCard() {
         /* 나중에 LoadAll로 따로 인터페이스 빼놓을것*/
         String projectRoot = System.getProperty("user.dir");
         ArrayList<InsuranceCard> results = new ArrayList<>();
