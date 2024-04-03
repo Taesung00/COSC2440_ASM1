@@ -34,6 +34,10 @@ public class InsuranceCard implements Serializable,Save {
         return CardNum;
     }
 
+    public Customer getCardHolder() {
+        return cardHolder;
+    }
+
     @Override
     public String toString() {
         return "InsuranceCard{" +
