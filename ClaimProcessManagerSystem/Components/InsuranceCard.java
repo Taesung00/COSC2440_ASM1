@@ -2,7 +2,6 @@ package Components;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -37,6 +36,18 @@ public class InsuranceCard implements Serializable,Save {
     public Customer getCardHolder() {
         return cardHolder;
     }
+    public String getCardHolderName() {
+        return cardHolder.getFullName();
+    }
+
+    public LocalDate getExpirationDate() {
+        return ExpirationDate;
+    }
+
+    public String getPolicyOwner() {
+        return PolicyOwner;
+    }
+
 
     @Override
     public String toString() {

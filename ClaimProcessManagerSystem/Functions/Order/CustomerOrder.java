@@ -1,6 +1,5 @@
 package Functions.Order;
 
-import Components.Claim;
 import Components.Customer;
 
 import java.io.File;
@@ -8,8 +7,39 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class CustomerOrder extends ClaimOrder{
+    private ArrayList<Customer> customerList = (ArrayList<Customer>) LoadAllCustomer();
+
+    public ArrayList<Customer> CustomerIDAscendingSort(){
+        Collections.sort(customerList, Comparator.comparing(Customer::getID));
+        return customerList;
+    }
+    public ArrayList<Customer> CustomerIDDescendingSort(){
+        Collections.sort(customerList, Comparator.comparing(Customer::getID).reversed());
+        return customerList;
+    }
+    public ArrayList<Customer> CustomerNameAscendingSort(){
+        Collections.sort(customerList, Comparator.comparing(Customer::getFullName));
+        return customerList;
+    }
+    public ArrayList<Customer> CustomerNameDescendingSort(){
+        Collections.sort(customerList, Comparator.comparing(Customer::getFullName).reversed());
+        return customerList;
+    }
+    public ArrayList<Customer> CustomerClaimAmountAscendingSort(){
+        Collections.sort(customerList, Comparator.comparing(Customer::getClaimNumber));
+        return customerList;
+    }
+    public ArrayList<Customer> CustomerClaimAmountDescendingSort(){
+        Collections.sort(customerList, Comparator.comparing(Customer::getClaimNumber));
+        return customerList;
+    }
+
+
+
     public static ArrayList<Customer> LoadAllCustomer() {
 
         String projectRoot = System.getProperty("user.dir");

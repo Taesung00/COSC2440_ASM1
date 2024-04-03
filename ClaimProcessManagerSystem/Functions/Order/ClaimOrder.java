@@ -5,18 +5,23 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
 import Components.Claim;
-import Components.InsuranceCard;
-import Functions.Load;
 
 
 public class ClaimOrder{
 
     private ArrayList<Claim> ClaimList = (ArrayList<Claim>) LoadAllClaim();
+    public ArrayList<Claim> claimDateAscending(){
+        Collections.sort(ClaimList,Comparator.comparing(Claim::getClaimDate));
+        return ClaimList;
+    }
+    public ArrayList<Claim> claimDateDescending(){
+        Collections.sort(ClaimList,Comparator.comparing(Claim::getClaimDate));
+        return ClaimList;
+    }
     public ArrayList<Claim> ClaimIDAscendingSort(){
         Collections.sort(ClaimList, Comparator.comparing(Claim::getID));
         return ClaimList;
@@ -63,12 +68,6 @@ public class ClaimOrder{
         }
         return ClaimList;
     }
-
-
-
-
-
-
     public static ArrayList<Claim> LoadAllClaim() {
         /* 나중에 LoadAll로 따로 인터페이스 빼놓을것*/
         String projectRoot = System.getProperty("user.dir");

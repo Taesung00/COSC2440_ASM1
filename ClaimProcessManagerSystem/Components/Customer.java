@@ -39,6 +39,14 @@ public class Customer implements Serializable,Save{
         return InsuranceCard;
     }
 
+    public ArrayList<Claim> getClaims() {
+        return Claims;
+    }
+    public int getClaimNumber() {
+        return Claims.size();
+    }
+
+
     public String getFullName() {
         return FullName;
     }
