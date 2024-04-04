@@ -1,6 +1,6 @@
 package Functions.Search;
 
-import Components.InsuranceCard;
+import Components.Entities.InsuranceCard;
 import Functions.Order.InsuranceCardOrder;
 
 import java.util.ArrayList;

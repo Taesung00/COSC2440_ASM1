@@ -1,6 +1,6 @@
 package Functions.Order;
 
-import Components.Customer;
+import Components.Entities.Customer;
 
 import java.io.File;
 import java.io.FileInputStream;

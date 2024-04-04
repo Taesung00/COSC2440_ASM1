@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import Components.Claim;
+import Components.Entities.Claim;
 
 
 public class ClaimOrder{

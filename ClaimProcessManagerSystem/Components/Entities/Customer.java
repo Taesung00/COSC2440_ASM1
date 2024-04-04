@@ -1,4 +1,4 @@
-package Components;
+package Components.Entities;
 
 import Functions.Save;
 
@@ -19,13 +19,13 @@ public class Customer implements Serializable,Save{
     private ArrayList<Claim> Claims = null;
 
     public Customer(){}
-    public Customer(String ID, String FullName) throws IOException {
-        this.ID = "C-"+ID;
+    public Customer(String IDNumber, String FullName) throws IOException {
+        this.ID = "c-"+ID; /*with the format c-numbers; 7 numbers*/
         this.FullName = FullName;
         Save("Customers",this.ID,this);
     }
 
-    public void setInsuranceCard(Components.InsuranceCard insuranceCard) throws IOException {
+    public void setInsuranceCard(Components.Entities.InsuranceCard insuranceCard) throws IOException {
         InsuranceCard = insuranceCard;
         Save("InsuranceCards",this.ID,this);
     }
@@ -35,7 +35,7 @@ public class Customer implements Serializable,Save{
         Save("Claims",this.ID,this);
     }
 
-    public Components.InsuranceCard getInsuranceCard() {
+    public Components.Entities.InsuranceCard getInsuranceCard() {
         return InsuranceCard;
     }
 

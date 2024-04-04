@@ -1,4 +1,4 @@
-package Components;
+package Components.Entities;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import Functions.Save;
 public class InsuranceCard implements Serializable,Save {
     private static final long serialVersionUID = 3L;
 
-    private final int CardNum;
+    private final int CardNum; /*number (10 digits)*/
     private final Customer cardHolder;
     private LocalDate ExpirationDate;
     private final String PolicyOwner;
@@ -25,7 +25,7 @@ public class InsuranceCard implements Serializable,Save {
         cardHolder.setInsuranceCard(this);
         this.ExpirationDate = expirationDate;
         this.cardHolder = cardHolder;
-        Save("InsuranceCards","I-"+this.CardNum,this);
+        Save("InsuranceCards",""+this.CardNum,this);
         Save("Customers",""+cardHolder.getID(),policyOwner);
     }
 

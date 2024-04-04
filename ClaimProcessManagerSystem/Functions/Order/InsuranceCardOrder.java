@@ -1,8 +1,6 @@
 package Functions.Order;
 
-import Components.Claim;
-import Components.Customer;
-import Components.InsuranceCard;
+import Components.Entities.InsuranceCard;
 
 import java.io.File;
 import java.io.FileInputStream;

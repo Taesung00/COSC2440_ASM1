@@ -1,6 +1,6 @@
 package Functions.Search;
 
-import Components.Claim;
+import Components.Entities.Claim;
 import Functions.Order.ClaimOrder;
 
 import java.util.ArrayList;

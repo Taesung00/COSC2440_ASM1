@@ -1,8 +1,6 @@
 package Functions.Search;
 
-import Components.Claim;
-import Components.Customer;
-import Components.InsuranceCard;
+import Components.Entities.Customer;
 import Functions.Order.CustomerOrder;
 
 import java.util.ArrayList;

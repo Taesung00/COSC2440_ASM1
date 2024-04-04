@@ -1,4 +1,4 @@
-package Components;
+package Components.Entities;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -12,9 +12,9 @@ import Functions.Save;
 
 public class Claim implements  Serializable,Save{
     private static final long serialVersionUID = 1L;
-    private String ID;
+    private String ID; /*(with the format f-numbers; 10 numbers*/
     private LocalDate ClaimDate;
-    private Customer InsurancedPerson;
+    private Customer InsuredPerson;
     private InsuranceCard Card;
     private String CardNum = String.valueOf(Card.getCardNum());
     private LocalDate ExamDate;
@@ -41,17 +41,17 @@ public class Claim implements  Serializable,Save{
 
     public Claim(){
     }
-    public Claim(int ID, LocalDate ClaimDate,Customer InsurancedPerson, InsuranceCard InsuranceCard, LocalDate ExamDate,int ClaimAmount) throws IOException {
-        this.ID = "F-"+ID;
+    public Claim(int IDNumber, LocalDate ClaimDate,Customer InsuredPerson, InsuranceCard InsuranceCard, LocalDate ExamDate,int ClaimAmount, String ReceiverBankingInfo) throws IOException {
+        this.ID = "f-"+IDNumber;
         this.ClaimDate = ClaimDate;
-        this.InsurancedPerson = InsurancedPerson;
+        this.InsuredPerson = InsuredPerson;
         this.ExamDate = ExamDate;
         this.ClaimAmount = ClaimAmount;
         this.ClaimStatus = Status.New;
         this.CardNum = String.valueOf(InsuranceCard.getCardNum());
-        InsurancedPerson.addClaim(this);
+        InsuredPerson.addClaim(this);
         Save("Claims",this.ID,this);
-        Save("Customers",InsurancedPerson.getID(),InsurancedPerson);
+        Save("Customers",InsuredPerson.getID(),InsuredPerson);
     }
 
     public void setClaimDate(LocalDate claimDate) {
@@ -98,14 +98,14 @@ public class Claim implements  Serializable,Save{
     }
 
     public Customer getInsurancedPerson() {
-        return InsurancedPerson;
+        return InsuredPerson;
     }
 
     @Override
     public String toString() {
         return "ID :'" + ID + '\'' +
                 ", ClaimDate :" + ClaimDate +
-                ", Insuranced Person's ID :" + InsurancedPerson.getID() + " : "+InsurancedPerson.getFullName()+
+                ", Insuranced Person's ID :" + InsuredPerson.getID() + " : "+InsuredPerson.getFullName()+
                 ", Card Number :" + CardNum +
                 ", Exam Date :" + ExamDate +
                 ", List Of Documents :" + ListOfDocuments +

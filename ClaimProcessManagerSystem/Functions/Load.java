@@ -1,14 +1,12 @@
 package Functions;
 
-import Components.Claim;
-import Components.Customer;
-import Components.InsuranceCard;
+import Components.Entities.Claim;
+import Components.Entities.Customer;
+import Components.Entities.InsuranceCard;
 
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author <Taesung Yoon - S3847581>
@@ -180,18 +178,15 @@ public class Load implements Serializable {
         String projectRoot = System.getProperty("user.dir");
         String path = "";
         switch(startWord){
-            case "Cl-":
+            case "c-":
                 path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Claims";
                 break;
                 case "f-":
                 path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Customers";
                 break;
-            case "I-":
-                path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/InsuranceCards";
+            default:path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/InsuranceCards";
                 break;
-            default:
-                System.out.println("Invalid startWord: " + startWord);
-                return; // Exit the method.
+
         }
         File folder = new File(path);
         File[] FileList = folder.listFiles();
