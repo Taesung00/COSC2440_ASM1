@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Assignment1">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$" />
+      <root url="jar://$PROJECT_DIR$/../../pdfbox-app-3.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/ClaimProcessManagerSystem" />
+    </SOURCES>
+  </library>
+</component>

@@ -39,19 +39,19 @@ public class customerSearch {
     }
     public static boolean customerSearchClarification(String name){
         for(Customer c : customers){
-            if(!(c.getFullName().equals(name))){
-                return false;
+            if((c.getFullName().equals(name))){
+                return true;
             }
         }
-        return true;
+        return false;
     }
     public static boolean customerSearchClarificationID(String IDnum){
         for(Customer c : customers){
-            if(!(c.getID().equals("c-"+IDnum))){
-                return false;
+            if((c.getID().equals("c-"+IDnum))){
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
 

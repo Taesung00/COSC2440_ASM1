@@ -13,40 +13,20 @@ import Components.Claim;
 
 public class ClaimOrder{
 
-    private ArrayList<Claim> ClaimList = (ArrayList<Claim>) LoadAllClaim();
-    public ArrayList<Claim> claimDateAscending(){
+    private static ArrayList<Claim> ClaimList = (ArrayList<Claim>) LoadAllClaim();
+    public static ArrayList<Claim> claimDateAscending(){
         Collections.sort(ClaimList,Comparator.comparing(Claim::getClaimDate));
         return ClaimList;
     }
-    public ArrayList<Claim> claimDateDescending(){
-        Collections.sort(ClaimList,Comparator.comparing(Claim::getClaimDate));
-        return ClaimList;
-    }
-    public ArrayList<Claim> ClaimIDAscendingSort(){
+    public static ArrayList<Claim> claimIDAscendingSort(){
         Collections.sort(ClaimList, Comparator.comparing(Claim::getID));
         return ClaimList;
     }
-    public ArrayList<Claim> ClaimIDDescendingSort(){
-        Collections.sort(ClaimList, Comparator.comparing(Claim::getID).reversed());
-        return ClaimList;
-    }
-    public ArrayList<Claim> ClaimDateAscendingSort(){
-        Collections.sort(ClaimList,Comparator.comparing(Claim::getClaimDate));
-        return ClaimList;
-    }
-    public ArrayList<Claim> ClaimDateDescendingSort(){
-        Collections.sort(ClaimList,Comparator.comparing(Claim::getClaimDate).reversed());
-        return ClaimList;
-    }
-    public ArrayList<Claim> ClaimAmountAscendingSort() {
+    public static ArrayList<Claim> claimAmountAscendingSort() {
         Collections.sort(ClaimList, Comparator.comparing(Claim::getClaimAmount));
         return ClaimList;
     }
-    public ArrayList<Claim> ClaimAmountDescendingSort(){
-        Collections.sort(ClaimList, Comparator.comparing(Claim::getClaimAmount).reversed());
-        return ClaimList;
-    }
-    public ArrayList<Claim> ClaimStatusSort() /*Need testing*/{
+    public static ArrayList<Claim> claimStatusSort() /*Need testing*/{
         Claim i1 = null;
         Claim i2 = null;
         Claim temp = null;

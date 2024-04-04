@@ -2,6 +2,7 @@ package Components;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import Functions.Save;
 
@@ -17,13 +18,13 @@ public class Claim implements  Serializable,Save{
     private InsuranceCard Card;
     private String CardNum = String.valueOf(Card.getCardNum());
     private LocalDate ExamDate;
-    private File ListOfDocuments; /* Adding java file functions*/
+    private ArrayList<String> ListOfDocuments = new ArrayList<>();
     private int ClaimAmount;
     public enum Status{
         New,Processing,Done
     }
     private Status ClaimStatus;
-    private String ReceiverBankingInfo;
+    private String ReceiverBankingInfo; /*Bank – Name – Number*/
 
     public InsuranceCard getCard() {
         return Card;
@@ -61,9 +62,16 @@ public class Claim implements  Serializable,Save{
         ExamDate = examDate;
     }
 
-    public void setListOfDocuments(File listOfDocuments) {
-        ListOfDocuments = listOfDocuments;
+    public ArrayList<String> getListOfDocuments() {
+        return ListOfDocuments;
     }
+    public void deleteDocument(String documentName){
+        this.ListOfDocuments.remove(documentName);
+    }
+    public void addDocument(String documentName){
+        this.ListOfDocuments.add(documentName);
+    }/*ClaimId_CardNumber_DocumentName.pdf*/
+
 
     public void setReceiverBankingInfo(String receiverBankingInfo) {
         ReceiverBankingInfo = receiverBankingInfo;
@@ -89,18 +97,13 @@ public class Claim implements  Serializable,Save{
         ClaimStatus = claimStatus;
     }
 
-    public void addDocuments(String document){}/*나중에 업데이트하기*/
-    public void deleteDocument(String document){}
-    public void getDocuments(){}
-
     public Customer getInsurancedPerson() {
         return InsurancedPerson;
     }
 
     @Override
     public String toString() {
-        return "Claim{" +
-                "ID :'" + ID + '\'' +
+        return "ID :'" + ID + '\'' +
                 ", ClaimDate :" + ClaimDate +
                 ", Insuranced Person's ID :" + InsurancedPerson.getID() + " : "+InsurancedPerson.getFullName()+
                 ", Card Number :" + CardNum +
