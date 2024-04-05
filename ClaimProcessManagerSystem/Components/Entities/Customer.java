@@ -2,7 +2,9 @@ package Components.Entities;
 
 import Functions.Save;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -15,24 +17,21 @@ public class Customer implements Serializable,Save{
 
     private String ID;
     private String FullName;
-    private InsuranceCard InsuranceCard = null;
-    private ArrayList<Claim> Claims = null;
+    private InsuranceCard InsuranceCard;
+    private ArrayList<Claim> Claims = new ArrayList<>();
 
-    public Customer(){}
+    public Customer() throws IOException {}
     public Customer(String IDNumber, String FullName) throws IOException {
-        this.ID = "c-"+ID; /*with the format c-numbers; 7 numbers*/
+        this.ID = "c-"+IDNumber; /*with the format c-numbers; 7 numbers*/
         this.FullName = FullName;
-        Save("Customers",this.ID,this);
     }
 
-    public void setInsuranceCard(Components.Entities.InsuranceCard insuranceCard) throws IOException {
+    public void setInsuranceCard(InsuranceCard insuranceCard) throws IOException {
         InsuranceCard = insuranceCard;
-        Save("InsuranceCards",this.ID,this);
     }
 
     public void addClaim(Claim claim) throws IOException {
         Claims.add(claim);
-        Save("Claims",this.ID,this);
     }
 
     public Components.Entities.InsuranceCard getInsuranceCard() {
@@ -54,6 +53,15 @@ public class Customer implements Serializable,Save{
     public String getID() {
         return ID;
     }
+
+    @Override
+    public void Save(String ComponentFolder, String ComponentName, Object obj) throws IOException {
+        String projectRoot = System.getProperty("user.dir");
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" + ComponentFolder + "/" + ComponentName + ".ser";
+        try (FileOutputStream fileOut = new FileOutputStream(path);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(obj);
+        }    }
 
     @Override
     public String toString() {

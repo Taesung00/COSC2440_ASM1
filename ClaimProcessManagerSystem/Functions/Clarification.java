@@ -7,22 +7,12 @@ package Functions;
 
 public class Clarification extends Load /*If not duplicated true ,duplicated false*/{
     public static Boolean duplicationClarify(String componentID){
-        String componentType = "";
-        if(        componentID.contains("c-")
-        ){
-            componentType= "Claim";
-        } else if (        componentID.contains("f-")
-        ) {
-            componentType="Customer";
-        } else{
-            componentType = "InsuranceCard";
-        }
-
-        if(returnAllFileNamesStartWith(componentType).contains(componentID)){
+        if(returnAllComponentsFileName().contains(componentID+".ser")){
             return false;
+        }else{
+            return true;
         }
 
-        return true;
     }
 
 

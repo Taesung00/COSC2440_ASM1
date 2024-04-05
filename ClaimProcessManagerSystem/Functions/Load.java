@@ -26,57 +26,40 @@ public class Load implements Serializable {
             }
             File[] listOfFiles = folder.listFiles();
             for (File file : listOfFiles) {
-                if (file.isFile() && file.getName().endsWith(".txt")) {
-                    System.out.println("Reading TXT file: " + file.getName());
-                    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            System.out.println(line);
-                        }
-                    } catch (IOException e) {
+                System.out.println(file.getName());
+                if (file.isFile() && file.getName().endsWith(".ser")) {
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                        Object obj = ois.readObject();
+                        System.out.println(obj.toString());
+                    } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
         }
     }
-    public static String returnAllFilesStartWith(String startWord) {
-        String projectRoot = System.getProperty("user.dir");
-        String path = "";
-        ArrayList<Object> results = new ArrayList<>();
-        switch(startWord){
-            case "Cl-":
-                path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Claims";
-                break;
-            case "f-":
-                path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Customers";
-                break;
-            case "I-":
-                path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/InsuranceCards";
-                break;
-            default:
-                System.out.println("Invalid startWord: " + startWord);
-                return ""+results;
-        }
-
-        File folder = new File(path);
-        File[] FileList = folder.listFiles();
-        for (File f : FileList) {
-            String name = f.getName();
-            if (f.isFile() && name.startsWith(startWord)) {
-                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
-                    Object obj = input.readObject();
-                    results.add(obj.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+    public static ArrayList<String> returnAllComponentsFileName() {
+        ArrayList<String> result = null;
+        ArrayList<String> componentFolders = new ArrayList<String>(Arrays.asList("Claims", "Customers", "InsuranceCards"));
+        for (String component : componentFolders) {
+            String projectRoot = System.getProperty("user.dir");
+            String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" + component;
+            File folder = new File(path);
+            if (!folder.exists() || !folder.isDirectory()) {
+                System.out.printf("There's no Data in %s folder\n", component);
+                continue;
+            }
+            File[] listOfFiles = folder.listFiles();
+            for (File file : listOfFiles) {
+                if (file.isFile() && file.getName().endsWith(".ser")) {
+                    result.add(file.getName());
                 }
             }
         }
-        return "" + results;
-
+        return result;
     }
+
+
     public static Claim returnClaim(String claimID){
         String projectRoot = System.getProperty("user.dir");
         String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Claims";
@@ -85,7 +68,7 @@ public class Load implements Serializable {
         Claim obj = null;
         for (File f : FileList) {
             String name = f.getName();
-            if (f.isFile() && name.startsWith(claimID)) {
+            if (f.isFile() && name.equals(claimID+".ser")) {
                 try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
                     obj = (Claim) input.readObject();
                 } catch (IOException e) {
@@ -106,7 +89,7 @@ public class Load implements Serializable {
         InsuranceCard obj = null;
         for (File f : FileList) {
             String name = f.getName();
-            if (f.isFile() && name.startsWith(insuranceCardID)) {
+            if (f.isFile() && name.equals(insuranceCardID+".ser")) {
                 try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
                     obj = (InsuranceCard) input.readObject();
                 } catch (IOException e) {
@@ -127,7 +110,7 @@ public class Load implements Serializable {
         Customer obj = null;
         for (File f : FileList) {
             String name = f.getName();
-            if (f.isFile() && name.startsWith(customerID)) {
+            if (f.isFile() && name.equals(customerID+".ser")) {
                 try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
                     obj = (Customer) input.readObject();
                 } catch (IOException e) {
@@ -149,7 +132,7 @@ public class Load implements Serializable {
         String path = "";
         ArrayList<String> folderNames = new ArrayList<>();
         switch(startWord){
-            case "Cl-":
+            case "c-":
                 path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Claims";
                 break;
             case "f-":
@@ -174,41 +157,6 @@ public class Load implements Serializable {
 
     }
 
-    public void printAllFilesStartWith(String startWord) {
-        String projectRoot = System.getProperty("user.dir");
-        String path = "";
-        switch(startWord){
-            case "c-":
-                path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Claims";
-                break;
-                case "f-":
-                path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Customers";
-                break;
-            default:path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/InsuranceCards";
-                break;
-
-        }
-        File folder = new File(path);
-        File[] FileList = folder.listFiles();
-        ArrayList<Object> results = new ArrayList<>();
-        for (File f : FileList) {
-            String name = f.getName();
-            if (f.isFile() && name.startsWith(startWord)) {
-                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
-                    Object obj = input.readObject();
-                    results.add(obj.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        for(Object result : results){
-            System.out.println(result.toString());
-        }
-
-    }
 
     }
 

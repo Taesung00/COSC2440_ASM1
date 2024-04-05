@@ -16,7 +16,7 @@ public class Claim implements  Serializable,Save{
     private LocalDate ClaimDate;
     private Customer InsuredPerson;
     private InsuranceCard Card;
-    private String CardNum = String.valueOf(Card.getCardNum());
+    private String CardNum;
     private LocalDate ExamDate;
     private ArrayList<String> ListOfDocuments = new ArrayList<>();
     private int ClaimAmount;
@@ -41,7 +41,7 @@ public class Claim implements  Serializable,Save{
 
     public Claim(){
     }
-    public Claim(int IDNumber, LocalDate ClaimDate,Customer InsuredPerson, InsuranceCard InsuranceCard, LocalDate ExamDate,int ClaimAmount, String ReceiverBankingInfo) throws IOException {
+    public Claim(String IDNumber, LocalDate ClaimDate,Customer InsuredPerson, InsuranceCard InsuranceCard, LocalDate ExamDate,int ClaimAmount, String ReceiverBankingInfo) throws IOException {
         this.ID = "f-"+IDNumber;
         this.ClaimDate = ClaimDate;
         this.InsuredPerson = InsuredPerson;
@@ -49,9 +49,8 @@ public class Claim implements  Serializable,Save{
         this.ClaimAmount = ClaimAmount;
         this.ClaimStatus = Status.New;
         this.CardNum = String.valueOf(InsuranceCard.getCardNum());
+        this.ReceiverBankingInfo = ReceiverBankingInfo;
         InsuredPerson.addClaim(this);
-        Save("Claims",this.ID,this);
-        Save("Customers",InsuredPerson.getID(),InsuredPerson);
     }
 
     public void setClaimDate(LocalDate claimDate) {
@@ -101,9 +100,20 @@ public class Claim implements  Serializable,Save{
         return InsuredPerson;
     }
 
+
+    @Override
+    public void Save(String ComponentFolder, String ComponentName, Object obj) throws IOException {
+        String projectRoot = System.getProperty("user.dir");
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" + ComponentFolder + "/" + ComponentName + ".ser";
+        try (FileOutputStream fileOut = new FileOutputStream(path);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(obj);
+        }    }
+
+
     @Override
     public String toString() {
-        return "ID :'" + ID + '\'' +
+        return "Claim ID :'" + ID + '\'' +
                 ", ClaimDate :" + ClaimDate +
                 ", Insuranced Person's ID :" + InsuredPerson.getID() + " : "+InsuredPerson.getFullName()+
                 ", Card Number :" + CardNum +
@@ -111,7 +121,7 @@ public class Claim implements  Serializable,Save{
                 ", List Of Documents :" + ListOfDocuments +
                 ", Claim Amount :" + ClaimAmount +
                 ", Claim Status :" + ClaimStatus +
-                ", Receiver Banking Information'" + ReceiverBankingInfo + '\'' +
+                ", Receiver Banking Information' : " + ReceiverBankingInfo + '\'' +
                 '}';
     }
 }

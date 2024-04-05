@@ -12,7 +12,7 @@ import java.io.Serializable;
 public interface Save extends Serializable {
     public default void Save(String ComponentFolder,String ComponentName, Object obj) throws IOException {
         String projectRoot = System.getProperty("user.dir");
-        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" +ComponentFolder+"/"+ComponentName + ".txt";
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" +ComponentFolder+"/"+ComponentName + ".ser";
         try {
             FileOutputStream fileOut = new FileOutputStream(path);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);

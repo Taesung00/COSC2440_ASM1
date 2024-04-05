@@ -1,6 +1,8 @@
 package Components.Entities;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -14,22 +16,20 @@ import Functions.Save;
 public class InsuranceCard implements Serializable,Save {
     private static final long serialVersionUID = 3L;
 
-    private final int CardNum; /*number (10 digits)*/
+    private final String CardNum; /*number (10 digits)*/
     private final Customer cardHolder;
     private LocalDate ExpirationDate;
     private final String PolicyOwner;
 
-    public InsuranceCard(int CardNum, Customer cardHolder, LocalDate expirationDate, String policyOwner) throws IOException {
+    public InsuranceCard(String CardNum, Customer cardHolder, LocalDate expirationDate, String policyOwner) throws IOException {
         this.CardNum = CardNum;
         this.PolicyOwner = policyOwner;
         cardHolder.setInsuranceCard(this);
         this.ExpirationDate = expirationDate;
         this.cardHolder = cardHolder;
-        Save("InsuranceCards",""+this.CardNum,this);
-        Save("Customers",""+cardHolder.getID(),policyOwner);
     }
 
-    public int getCardNum() {
+    public String getCardNum() {
         return CardNum;
     }
 
@@ -48,6 +48,14 @@ public class InsuranceCard implements Serializable,Save {
         return PolicyOwner;
     }
 
+    @Override
+    public void Save(String ComponentFolder, String ComponentName, Object obj) throws IOException {
+        String projectRoot = System.getProperty("user.dir");
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" + ComponentFolder + "/" + ComponentName + ".ser";
+        try (FileOutputStream fileOut = new FileOutputStream(path);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(obj);
+        }    }
 
     @Override
     public String toString() {

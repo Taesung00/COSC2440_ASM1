@@ -26,20 +26,20 @@ public class ClaimOrder{
         Collections.sort(ClaimList, Comparator.comparing(Claim::getClaimAmount));
         return ClaimList;
     }
-    public static ArrayList<Claim> claimStatusSort() /*Need testing*/{
+    public static ArrayList<Claim> claimStatusSort() /*New > Processing > Done*/{
         Claim i1 = null;
         Claim i2 = null;
         Claim temp = null;
 
         for(int i = 0; i<ClaimList.size()-1;i++){
             for(int j = 0; j<ClaimList.size()-i-1;j++){
-                if(ClaimList.get(j).getClaimStatus() == Claim.Status.Done){
-                    if(ClaimList.get(j+1).getClaimStatus() == Claim.Status.New || ClaimList.get(j+1).getClaimStatus() == Claim.Status.Processing){
+                if(ClaimList.get(j).getClaimStatus().equals(Claim.Status.Processing)){
+                    if(ClaimList.get(j+1).getClaimStatus().equals(Claim.Status.New) || ClaimList.get(j+1).getClaimStatus().equals(Claim.Status.Processing)){
                         temp = ClaimList.get(j);
                         ClaimList.set(j, ClaimList.get(j + 1));
                         ClaimList.set(j+1,temp);
                     }
-                } else if (ClaimList.get(j).getClaimStatus() == Claim.Status.Processing) {
+                } else if (ClaimList.get(j).getClaimStatus().equals(Claim.Status.Done)) {
                     temp = ClaimList.get(j);
                     ClaimList.set(j, ClaimList.get(j + 1));
                     ClaimList.set(j+1,temp);
@@ -56,15 +56,18 @@ public class ClaimOrder{
         File folder = new File(path);
         File[] FileList = folder.listFiles();
         for (File f : FileList) {
-            String name = f.getName();
-            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
-                Object obj = input.readObject();
-                results.add((Claim) obj);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            if (f.isFile() && f.getName().endsWith(".ser")){
+                String name = f.getName();
+                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
+                    Object obj = input.readObject();
+                    results.add((Claim) obj);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
+
         }
         return results;    }
 

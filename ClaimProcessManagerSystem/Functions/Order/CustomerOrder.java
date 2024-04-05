@@ -1,5 +1,6 @@
 package Functions.Order;
 
+import Components.Entities.Claim;
 import Components.Entities.Customer;
 
 import java.io.File;
@@ -17,26 +18,18 @@ public class CustomerOrder extends ClaimOrder{
         Collections.sort(customerList, Comparator.comparing(Customer::getID));
         return customerList;
     }
-    public ArrayList<Customer> CustomerIDDescendingSort(){
-        Collections.sort(customerList, Comparator.comparing(Customer::getID).reversed());
-        return customerList;
-    }
+
     public ArrayList<Customer> CustomerNameAscendingSort(){
         Collections.sort(customerList, Comparator.comparing(Customer::getFullName));
         return customerList;
     }
-    public ArrayList<Customer> CustomerNameDescendingSort(){
-        Collections.sort(customerList, Comparator.comparing(Customer::getFullName).reversed());
-        return customerList;
-    }
+
     public ArrayList<Customer> CustomerClaimAmountAscendingSort(){
         Collections.sort(customerList, Comparator.comparing(Customer::getClaimNumber));
         return customerList;
     }
-    public ArrayList<Customer> CustomerClaimAmountDescendingSort(){
-        Collections.sort(customerList, Comparator.comparing(Customer::getClaimNumber));
-        return customerList;
-    }
+
+
 
 
 
@@ -48,16 +41,19 @@ public class CustomerOrder extends ClaimOrder{
         File folder = new File(path);
         File[] FileList = folder.listFiles();
         for (File f : FileList) {
-            String name = f.getName();
-            try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
-                Object obj = input.readObject();
-                results.add((Customer) obj);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            if (f.isFile() && f.getName().endsWith(".ser")){
+                String name = f.getName();
+                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
+                    Object obj = input.readObject();
+                    results.add((Customer) obj);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+            }
+
         return results;    }
 
 }
