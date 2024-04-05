@@ -919,7 +919,7 @@ public class delete{
                             view.viewClaimSelect();
                             break;
                             case "1":
-                                System.out.println();
+                                update.UpdateClaimSelect(target);
                         case "2":
                             System.out.println("Are you sure to delete this data permantely? (y/n)");
                             while (true){
@@ -975,7 +975,7 @@ public class delete{
     public static class update {
 
 
-        public void UpdateClaimSelect(Claim target) throws IOException {
+        public static void UpdateClaimSelect(Claim target) throws IOException {
             System.out.println("Please select the update option.");
             System.out.println("1. Status");
             System.out.println("2. List of documents");
@@ -1192,7 +1192,7 @@ public class delete{
                                 System.out.println("Banking information is saved");
                                 System.out.println("Status is changed");
                                 System.out.println("1. Back to this claim's update display");
-                                System.out.println("b. Back to claim display");
+                                System.out.println("b. Back to claim order selection");
                                 while (true) {
                                     input = scanner.nextLine();
                                     switch (input) {
