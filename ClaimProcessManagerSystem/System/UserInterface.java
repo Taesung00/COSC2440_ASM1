@@ -147,47 +147,65 @@ public class UserInterface {
                 }
 
             }
-            System.out.println("Please type the card number.");
+            System.out.println("Please select the card number.");
+            int index=0;
             System.out.println("Cards in database : ");
             ArrayList<InsuranceCard> cards =  InsuranceCardOrder.LoadAllInsuranceCard();
             for(InsuranceCard card : cards){
-                System.out.println(card);
-            }
-            while (true){
-                System.out.println("Please type 0, if you want to back to mainmenu.");
-                CardNum = scanner.nextLine();
-                if(CardNum.equals("0")){
-                    startMenu();
-                }
-                if(!duplicationClarify(CardNum))/*If insurance card is in the database */{
-                    targetCard = Load.returnInsuranceCard(CardNum);
-                    System.out.println("Insurance card is now clarified");
-                    break;
-                }else{
-                    System.out.println("Claim ID number is not existed in our database");
-                }
-            }
-            System.out.println("Please type the ID number of customer");
-            System.out.println("Customers in database : ");
-            ArrayList<Customer> customers = CustomerOrder.LoadAllCustomer();
-            for(Customer customer : customers){
-                System.out.println(customer);
-            }
-            while (true){
-                Customer = scanner.nextLine();
-                System.out.println("Please type 0, if you want to back to main menu.");
-                if(Customer.equals("0")){
-                    startMenu();
-                }
-                if(!duplicationClarify("c-"+Customer)){
-                    targetCustomer = Load.returnCustomer("c-"+Customer);
-                    System.out.println("Customer is now clarified");
-                    break;
-                }else{
-                    System.out.println("Customer is not existed in our database");
-                }
+                System.out.println("["+index+"]" +" "+card);
+                index +=1;
 
             }
+            int cardsSize = cards.size();
+            while (true){
+                System.out.println("Please type -1, if you want to back to mainmenu.");
+                int input = scanner.nextInt();
+                try {
+                    int number = input;
+                    if (number <= cardsSize - 1) {
+                        if (number == -1) {
+                            startMenu();
+                            break;
+                        } else {
+                            targetCard = cards.get(number);
+                        }
+                    }
+                }catch (NumberFormatException ex){
+                    ex.printStackTrace();
+                    System.out.println("Invalid input, try again.");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            System.out.println("Please select the ID of customer");
+            System.out.println("Customers in database : ");
+            ArrayList<Customer> customers = CustomerOrder.LoadAllCustomer();
+            index=0;
+                for(Customer customer : customers){
+                    System.out.println("["+index+"]" +" "+customer);
+                    index +=1;
+
+                }
+                int customersSize = customers.size();
+                while (true){
+                    System.out.println("Please type -1, if you want to back to mainmenu.");
+                    input = scanner.nextInt();
+                    try {
+                        int number = input;
+                        if (number <= customersSize - 1) {
+                            if (number == -1) {
+                                startMenu();
+                                break;
+                            } else {
+                                targetCustomer = customers.get(number);
+                            }
+                        }
+                    }catch (NumberFormatException ex){
+                        ex.printStackTrace();
+                        System.out.println("Invalid input, try again.");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
             System.out.println("Please type the amount of claim.");
             claimAmount = scanner.nextInt();
             LocalDate claimDate = null;
@@ -271,7 +289,7 @@ public class UserInterface {
             }
 
         }
-    }
+    }}}
 
 public class delete{
     private static void deleteClaim() throws IOException {
@@ -405,7 +423,7 @@ public class delete{
                                 startMenu();
                                 break;
                             }
-                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                            System.out.println("We cannot find the same ID in customer database. Please type again. ");
                         }
                         System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
                         while (true){
@@ -464,7 +482,7 @@ public class delete{
                                 startMenu();
                                 break;
                             }
-                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                            System.out.println("We cannot find the same ID in insurance database. Please type again. ");
                         }
                         System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
                         while (true){
@@ -597,7 +615,7 @@ public class delete{
                                 startMenu();
                                 break;
                             }
-                            System.out.println("We cannot find the same ID in customer database. Please type again. ");
+                            System.out.println("We cannot find the same name in customer database. Please type again. ");
                         }
                         System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
                         while (true){
@@ -624,7 +642,7 @@ public class delete{
                                 startMenu();
                                 break;
                             }
-                            System.out.println("We cannot find the same ID in customer database. Please type again. ");
+                            System.out.println("We cannot find the same ID in insurance card database. Please type again. ");
                         }
                         System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
                         while (true){
@@ -654,7 +672,7 @@ public class delete{
                                 startMenu();
                                 break;
                             }
-                            System.out.println("We cannot find the same ID in customer database. Please type again. ");
+                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
                         }
                         System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
                         while (true){
@@ -700,7 +718,7 @@ public class delete{
                                 startMenu();
                                 break;
                             }
-                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                            System.out.println("We cannot find the same ID in insurance card database. Please type again. ");
                         }
                         System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
                         while (true){
@@ -728,7 +746,7 @@ public class delete{
                                 startMenu();
                                 break;
                             }
-                            System.out.println("We cannot find the same ID in claim database. Please type again. ");
+                            System.out.println("We cannot find the same full name in database. Please type again. ");
                         }
                         System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
                         while (true){
@@ -750,76 +768,6 @@ public class delete{
                 }
             }
 
-        }
-        private void searchCustomer() throws IOException {
-            System.out.println("1. Type the customer ID");
-            System.out.println("2. Type the name");
-            System.out.println("b. Back to start menu");
-            while (true){
-                String searchOption = scanner.nextLine();
-                switch (searchOption){
-                    case "1":
-                        System.out.println("Please type the customers full name.");
-                        System.out.println("Please type 0 to back to main menu.");
-                        while (true){
-                            String input = scanner.nextLine();
-                            if(customerSearch.customerSearchClarification(input)){
-                                System.out.println(customerSearch.customerSearchCustomerID(input));
-                                break;
-                            }else if(input.equals("0")){
-                                startMenu();
-                                break;
-                            }
-                            System.out.println("We cannot find the same name in customer database. Please type again. ");
-                        }
-                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
-                        while (true){
-                            String input = scanner.nextLine();
-                            switch (input){
-                                case "1":
-                                    searchSelectOptionClaim();
-                                    break;
-                                case"b":
-                                case"B":
-                                    startMenu();
-                                    break;
-                                default: System.out.println("Invalid input. Please type again.");
-                            }
-                        }
-                    case "2":
-                        System.out.println("Please type the customer's name.");
-                        System.out.println("Please type 0 to back to main menu.");
-                        while (true){
-                            String input = scanner.nextLine();
-                            if(customerSearch.customerSearchClarificationID(input)){
-                                System.out.println(customerSearch.customerSearchInsuranceCardID(input));
-                                break;
-                            }else if(input.equals("0")){
-                                startMenu();
-                                break;
-                            }
-                            System.out.println("We cannot find the same name in customer database. Please type again. ");
-                        }
-                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
-                        while (true){
-                            String input = scanner.nextLine();
-                            switch (input){
-                                case "1":
-                                    searchSelect();
-                                    break;
-                                case"b":
-                                case"B":
-                                    startMenu();
-                                    break;
-                                default: System.out.println("Invalid input. Please type again.");
-                            }}
-                    case "b":
-                        startMenu();
-                        break;
-                    default:
-                        System.out.println("Invalid input, please type again.");
-                }
-            }
         }
 
         }
@@ -1276,3 +1224,4 @@ public class delete{
     }
 
 }
+
