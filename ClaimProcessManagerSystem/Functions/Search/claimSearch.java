@@ -8,18 +8,18 @@ import java.util.ArrayList;
 public class claimSearch {
     static ArrayList<Claim> claims = ClaimOrder.LoadAllClaim();
     public static ArrayList<Claim> claimSearchCustomerID(String customerID){
-        ArrayList<Claim> result = null;
+        ArrayList<Claim> result = new ArrayList<>();
         for(Claim Claim : claims){
-            if(Claim.getInsurancedPerson().getID().equals(customerID)){
+            if(Claim.getInsurancedPerson().getID().equals("c-"+customerID)){
                 result.add(Claim);
             }
         }
         return result;
     }
     public static Claim claimSearchClaimID(String ClaimID){
-        Claim result = null;
+        Claim result = new Claim();
         for(Claim Claim : claims){
-            if(Claim.getID().equals(ClaimID)){
+            if(Claim.getID().equals("f-"+ClaimID)){
                 result = Claim;
             }
         }
@@ -27,7 +27,7 @@ public class claimSearch {
     }
 
     public static ArrayList<Claim> claimSearchInsuranceCardNum(String insuranceCardNum){
-        ArrayList<Claim> result = null;
+        ArrayList<Claim> result = new ArrayList<>();
         for(Claim claim : claims){
             if(claim.getCardNum().equals(insuranceCardNum)){
                 result.add(claim);
@@ -36,7 +36,7 @@ public class claimSearch {
         return result;
     }
     public static ArrayList<Claim> claimSearchStatus(Enum Status){
-        ArrayList<Claim> result = null;
+        ArrayList<Claim> result = new ArrayList<>();
         for(Claim Claim : claims){
             if(Claim.getClaimStatus().equals(Status)){
                 result.add(Claim);

@@ -19,8 +19,13 @@ public class Customer implements Serializable,Save{
     private String FullName;
     private InsuranceCard InsuranceCard;
     private ArrayList<Claim> Claims = new ArrayList<>();
+    private enum Role{
+        policyHolder,dependent
+    }
+    private Role customerRole = Role.policyHolder; /*Default value*/
+    private ArrayList<Customer> dependentList;
 
-    public Customer() throws IOException {}
+    public Customer(){}
     public Customer(String IDNumber, String FullName) throws IOException {
         this.ID = "c-"+IDNumber; /*with the format c-numbers; 7 numbers*/
         this.FullName = FullName;
@@ -32,6 +37,10 @@ public class Customer implements Serializable,Save{
 
     public void addClaim(Claim claim) throws IOException {
         Claims.add(claim);
+    }
+
+    public void setCustomerRolePolicyHolder() {
+        this.customerRole = Role.policyHolder;
     }
 
     public Components.Entities.InsuranceCard getInsuranceCard() {
@@ -54,6 +63,13 @@ public class Customer implements Serializable,Save{
         return ID;
     }
 
+    public ArrayList<Customer> getDependentList() {
+        return dependentList;
+    }
+    public void addDependent(Customer dependent){
+        dependentList.add(dependent);
+    }
+
     @Override
     public void Save(String ComponentFolder, String ComponentName, Object obj) throws IOException {
         String projectRoot = System.getProperty("user.dir");
@@ -69,7 +85,7 @@ public class Customer implements Serializable,Save{
                 "ID :'" + ID + '\'' +
                 ", Full Name :'" + FullName + '\'' +
                 ", Insurance Card Information:" + InsuranceCard +
-                ", Claims Information : " + Claims +
+                ", Claims Information : " + Claims +", Role : "+customerRole+ ", Dependents : "+dependentList+
                 '}';
     }
 }

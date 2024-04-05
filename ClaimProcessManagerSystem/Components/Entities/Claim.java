@@ -12,7 +12,7 @@ import Functions.Save;
 
 public class Claim implements  Serializable,Save{
     private static final long serialVersionUID = 1L;
-    private String ID; /*(with the format f-numbers; 10 numbers*/
+    private final String ID; /*(with the format f-numbers; 10 numbers*/
     private LocalDate ClaimDate;
     private Customer InsuredPerson;
     private InsuranceCard Card;
@@ -40,6 +40,7 @@ public class Claim implements  Serializable,Save{
 
 
     public Claim(){
+        ID = null;
     }
     public Claim(String IDNumber, LocalDate ClaimDate,Customer InsuredPerson, InsuranceCard InsuranceCard, LocalDate ExamDate,int ClaimAmount, String ReceiverBankingInfo) throws IOException {
         this.ID = "f-"+IDNumber;

@@ -4,6 +4,7 @@ import Components.Entities.InsuranceCard;
 import Functions.Clarification;
 import Functions.Load;
 import Functions.Order.ClaimOrder;
+import Functions.Order.InsuranceCardOrder;
 import Functions.Save;
 
 import java.time.LocalDate;
@@ -80,13 +81,15 @@ public class main {
       f4.Save("Claims",f4.getID(),f4);
       c4.Save("Customers",c4.getID(),c4);
       i4.Save("InsuranceCards",i4.getCardNum(),i4);
+System.out.println(InsuranceCardOrder.LoadAllInsuranceCard());
+
+////      Load.ListAllComponents();
+//      ArrayList<Claim> cl1 = ClaimOrder.claimStatusSort();
+//      for(Claim cli1 : cl1){
+//        System.out.println(cli1);
+//      }
 
 
-//      Load.ListAllComponents();
-      ArrayList<Claim> cl1 = ClaimOrder.claimStatusSort();
-      for(Claim cli1 : cl1){
-        System.out.println(cli1);
-      }
 
 
     }

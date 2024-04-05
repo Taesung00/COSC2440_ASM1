@@ -39,7 +39,7 @@ public class Load implements Serializable {
         }
     }
     public static ArrayList<String> returnAllComponentsFileName() {
-        ArrayList<String> result = null;
+        ArrayList<String> result = new ArrayList<>();
         ArrayList<String> componentFolders = new ArrayList<String>(Arrays.asList("Claims", "Customers", "InsuranceCards"));
         for (String component : componentFolders) {
             String projectRoot = System.getProperty("user.dir");

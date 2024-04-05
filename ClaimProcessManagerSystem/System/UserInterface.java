@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -35,22 +36,21 @@ public class UserInterface {
         u1.startMenu();
     }
     static Scanner scanner = new Scanner(System.in);
-    private void starting(){
+    public static void starting(){
         System.out.println("=====================================================================================");
         System.out.println("=====================================================================================");
-        System.out.println("                   Welcome to Claim Process Managing system                          ");
+        System.out.println("                              Claim Process Managing system                          ");
         System.out.println("=====================================================================================");
         System.out.println("=====================================================================================");
     }
     public static void startMenu() throws IOException {
-
+        starting();
         while (true) {
             System.out.println("Please select the menu.");
-            System.out.println("1. View claims.");
-            System.out.println("2. Search.");
-            System.out.println("3. Create.");
-            System.out.println("4. Delete.");
-            System.out.println("5. Update");
+            System.out.println("1. Update and delete claims.");
+            System.out.println("2. Search components(Claim,Customer,Insurance card).");
+            System.out.println("3. Create claims.");
+            System.out.println("4. Delete claims.");
             System.out.println("exit. Close the program.");
             String startMenu = scanner.nextLine();
                 switch (startMenu) {
@@ -65,10 +65,10 @@ public class UserInterface {
                         search.searchSelect();
                         break;
                     case "3":
-                        create.createSelect();
+                        create.createClaim();
                         break;
                     case "4":
-                        delete.deleteSelect();
+                        delete.deleteClaim();
                         break;
 
                     default:
@@ -117,185 +117,6 @@ public class UserInterface {
 
 
     public static class create{
-        public static void createSelect() throws IOException {
-            System.out.println("Plase select the category you want to create into database.");
-            System.out.println("1. Claim");
-            System.out.println("2. Customer");
-            System.out.println("3. Insurance card");
-            System.out.println("b. Back to start menu");
-            String createOption = scanner.nextLine();
-
-            switch (createOption) {
-                case "b":
-                    System.out.println("Back to start menu...");
-                    System.out.println("");
-                    startMenu();
-                case "1":
-                    createClaim();
-                    break;
-                case "2":
-                    createCustomer();
-                    break;
-                case "3":
-                    createCard();
-                    break;
-                default:
-                    System.out.println("Invalid input.");
-                    break;
-            }}
-
-        private static void createCustomer() throws IOException {
-            System.out.println("Please type the customer ID number");
-            System.out.println("ID duplication is not accepted and ID number must be 7 numbers.");
-            System.out.println("Existed customer's ID in our database : ");
-            CustomerOrder.LoadAllCustomer();
-            String IDNum="";
-            while (true){
-                IDNum = scanner.nextLine();
-                System.out.println("Please type 0, if you want to back to main menu.");
-                if(IDNum.equals("0")){
-                    startMenu();
-                }
-                if((IDNum.length()==7)&&duplicationClarify("f-"+IDNum)){
-                    break;
-                }
-                System.out.println("Claim ID number is already existed in our database, please try again");
-            }
-            System.out.println("Please type the customer's full name.");
-            String targetFullName = scanner.nextLine();
-            System.out.println("Please check the information.");
-            System.out.println("Customer's ID: "+IDNum+",Full name : "+targetFullName);
-            while (true){
-                System.out.println("If information is correct, please type Y.");
-                System.out.println("Or if you want to back to create customer, type N.");
-                System.out.println("If you want to back to main menu, type M");
-                String select = scanner.nextLine();
-                switch (select){
-                    case "Y":
-                    case "y":
-                        Customer c1 = new Customer(IDNum,targetFullName);
-                        System.out.println("Customer is completely saved in database");
-                        System.out.println("If you want to add claim, press 1");
-                        System.out.println("If you want to add more customer, press 2.");
-                        System.out.println("If you want to add insurance card, press 3");
-                        System.out.println("If you want to back main menu, type b");
-
-                        while (true){
-                            String sc = scanner.nextLine();
-                            switch (sc){
-                                case "2":createCustomer();
-                                case "3":createCard();
-                                case "1":createClaim();
-                                case "b":startMenu();
-                                default:
-                                    System.out.println("Invalid output. Please type again.");
-                            }
-
-                        }
-
-                    case "N":
-                    case "n":
-                        createCustomer();
-                    case "M":
-                    case "m":
-                        startMenu();
-                }
-
-
-            }
-
-        }
-        private static void createCard() throws IOException{
-            String ID;
-            String customerID;
-            System.out.println("Please type the Insurance card ID number. ID number should be 10 digits.");
-            System.out.println("Current added ID should not be existed in our database\n");
-            System.out.println("Existed insurance card ID in our database : ");
-            InsuranceCardOrder.LoadAllInsuranceCard();
-            while (true){
-                System.out.println("Please type 0, if you want to back to mainmenu.");
-                ID = scanner.nextLine();
-                if(ID.equals("0")){
-                    startMenu();
-                }
-                if(duplicationClarify(""+ID)){
-                    break;
-                }
-                System.out.println("Insurance card ID number is already existed in our database, please try again");
-            }
-            System.out.println("Please type the card holder's customer ID");
-            System.out.println("Customers in database : ");
-            CustomerOrder.LoadAllCustomer();
-
-            while (true){
-                customerID = scanner.nextLine();
-                System.out.println("Please type 0, if you want to back to mainmenu.");
-                if(customerID == "0"){
-                    startMenu();
-                }
-                if(!duplicationClarify("c-"+customerID)){
-                    Customer targetCustomer = Load.returnCustomer("c-"+customerID);
-                    System.out.println("Customer is now clarified");
-                    break;
-                }
-                System.out.println("Customer is not existed in our database");
-            }
-            System.out.println("Please type the policy owner of this card.");
-            String policyOwner = scanner.nextLine();
-            System.out.println("Please type the expiration year");
-            int examYear = scanner.nextInt();
-            System.out.println("Please type the expiration month");
-            int examMonth = scanner.nextInt();
-            System.out.println("Please type the expiration day");
-            int examDay = scanner.nextInt();
-            LocalDate examDate = LocalDate.of(examYear, examMonth, examDay);
-            while (true){
-                System.out.println("Please check the information");
-                System.out.println("Card ID : Number"+ ID);
-                Customer cardHolder = Load.returnCustomer("c-"+ID);
-                System.out.println("Card holder information : "+cardHolder.toString());
-                System.out.println("Policy owner : "+policyOwner);
-                System.out.printf("Exam date : "+examDate);
-                System.out.println("\n");
-                System.out.println("If information is all correct, type Y");
-                System.out.println("Or information is not correct and go back to main, type N");
-                String response = scanner.nextLine();
-                switch (response){
-                    case ("y"):
-                    case ("Y"):
-                        InsuranceCard card = new InsuranceCard(ID,cardHolder,examDate,policyOwner);
-                        System.out.println("Claim is completely updated in database");
-                        System.out.println("Please update the list of document in update menu.");
-                        System.out.println("If you want to add claim, press 1");
-                        System.out.println("If you want to add customer, press 2.");
-                        System.out.println("If you want to add more insurance card, press 3");
-                        System.out.println("If you want to back main menu, type b");
-
-                        while (true){
-                            String sc = scanner.nextLine();
-                            switch (sc){
-                                case "2":createCustomer();
-                                case "3":createCard();
-                                case "1":createClaim();
-                                case "b":startMenu();
-                                default:
-                                    System.out.println("Invalid output. Please type again.");
-                            }
-
-                        }
-                    case "n":
-                    case "N":
-                        System.out.println("Going to main menu...\n");
-                        break;
-                    default:
-                        System.out.println("Invalid input, try again.");
-                }
-
-            }
-
-
-
-        }
 
         private static void createClaim() throws IOException {
             String IDNum;
@@ -307,42 +128,55 @@ public class UserInterface {
             System.out.println("Please type the claim ID number");
             System.out.println("ID should not be existed in our database\n");
             System.out.println("Existed claims ID in our database : ");
-            CustomerOrder.LoadAllCustomer();
+            ArrayList<Claim> claimList =  ClaimOrder.LoadAllClaim();
+            ArrayList<String> claimName = new ArrayList<String>();
+            for(Claim cl : claimList){
+                System.out.println(cl);
+                claimName.add(cl.getID());
+            }
             while (true){
                 System.out.println("Please type 0, if you want to back to mainmenu.");
                 System.out.println("Requirement. ID number should be 10 numbers.");
                 IDNum = scanner.nextLine();
                 if(IDNum.equals(0)){
                     startMenu();
-                }
-                if((""+IDNum).length() == 10&&duplicationClarify("c-"+IDNum)){
+                } else if ((claimName.contains("f-"+IDNum))||IDNum.length() < 10) {
+                    System.out.println("Claim ID number is already existed in our database or cannot satisfy requiremnet, please try again");
+                }else {
                     break;
                 }
-                System.out.println("Claim ID number is already existed in our database or cannot satisfy requiremnet, please try again");
+
             }
             System.out.println("Please type the card number.");
             System.out.println("Cards in database : ");
-            InsuranceCardOrder.LoadAllInsuranceCard();
+            ArrayList<InsuranceCard> cards =  InsuranceCardOrder.LoadAllInsuranceCard();
+            for(InsuranceCard card : cards){
+                System.out.println(card);
+            }
             while (true){
-                CardNum = scanner.nextLine();
                 System.out.println("Please type 0, if you want to back to mainmenu.");
-                if(CardNum == "0"){
+                CardNum = scanner.nextLine();
+                if(CardNum.equals("0")){
                     startMenu();
                 }
-                if(!duplicationClarify(""+CardNum)){
-                    targetCard = Load.returnInsuranceCard(""+CardNum);
+                if(!duplicationClarify(CardNum))/*If insurance card is in the database */{
+                    targetCard = Load.returnInsuranceCard(CardNum);
                     System.out.println("Insurance card is now clarified");
                     break;
+                }else{
+                    System.out.println("Claim ID number is not existed in our database");
                 }
-                System.out.println("Claim ID number is not existed in our database");
             }
             System.out.println("Please type the ID number of customer");
             System.out.println("Customers in database : ");
-            ClaimOrder.LoadAllClaim();
+            ArrayList<Customer> customers = CustomerOrder.LoadAllCustomer();
+            for(Customer customer : customers){
+                System.out.println(customer);
+            }
             while (true){
                 Customer = scanner.nextLine();
                 System.out.println("Please type 0, if you want to back to main menu.");
-                if(Customer == "0"){
+                if(Customer.equals("0")){
                     startMenu();
                 }
                 if(!duplicationClarify("c-"+Customer)){
@@ -356,29 +190,40 @@ public class UserInterface {
             }
             System.out.println("Please type the amount of claim.");
             claimAmount = scanner.nextInt();
-
+            LocalDate claimDate = null;
+            LocalDate examDate =null;
             /*Claim date and Exam date*/
-            System.out.println("Please type the claim date year.");
-            int claimYear = scanner.nextInt();
-            System.out.println("Please type the claim date month.");
-            int claimMonth = scanner.nextInt();
-            System.out.println("Please type the claim date day.");
-            int claimDay = scanner.nextInt();
-            System.out.println("Please type the exam date year.");
-            int examYear = scanner.nextInt();
-            System.out.println("Please type the exam date month.");
-            int examMonth = scanner.nextInt();
-            System.out.println("Please type the exam date day.");
-            int examDay = scanner.nextInt();
-            LocalDate claimDate = LocalDate.of(claimYear, claimMonth, claimDay);
-            LocalDate examDate = LocalDate.of(examYear, examMonth, examDay);
+            try {
+                System.out.println("Please type the claim date year.");
+                int claimYear = scanner.nextInt();
+                System.out.println("Please type the claim date month.");
+                int claimMonth = scanner.nextInt();
+                System.out.println("Please type the claim date day.");
+                int claimDay = scanner.nextInt();
+                claimDate = LocalDate.of(claimYear, claimMonth, claimDay);
+
+                System.out.println("Please type the exam date year.");
+                int examYear = scanner.nextInt();
+                System.out.println("Please type the exam date month.");
+                int examMonth = scanner.nextInt();
+                System.out.println("Please type the exam date day.");
+                int examDay = scanner.nextInt();
+                examDate = LocalDate.of(examYear, examMonth, examDay);
+            } catch (InputMismatchException e) /*Errors when the input is string*/{
+                System.out.println("Invalid input! Please enter integers for year, month, and day.");
+                createClaim();
+            } catch (Exception e) {
+                System.out.println("An error occurred: " + e.getMessage());
+                createClaim();
+            }
+            String flush = scanner.nextLine();/*Flush scanner for error occuring*/
             System.out.println("Please type the receiver's bank name");
-            String bankName = scanner.nextLine();
+            String bankN = scanner.nextLine();
             System.out.println("Please type the receiver's name ");
             String name = scanner.nextLine();
             System.out.println("Please type the bank number");
             String banknumber = scanner.nextLine();
-            String bankingInfo = bankName+"-"+name+"-"+banknumber;
+            String bankingInfo = bankN+"-"+name+"-"+banknumber;
 
             while (true){
                 System.out.println("Please check the information");
@@ -386,8 +231,8 @@ public class UserInterface {
                 System.out.println("Customer information : "+targetCustomer.toString());
                 System.out.println("Insurance card information : "+targetCard.toString());
                 System.out.printf("Claim date : "+claimDate);
-                System.out.printf("Exam date : "+examDate);
-                System.out.printf("Banking information : "+ bankingInfo);
+                System.out.printf(",Exam date : "+examDate);
+                System.out.printf(",Banking information : "+ bankingInfo);
                 System.out.println("\n");
                 System.out.println("If information is all correct, type Y");
                 System.out.println("Or information is not correct and go back to main, type N");
@@ -396,18 +241,18 @@ public class UserInterface {
                     case ("y"):
                     case ("Y"):
                         Claim cl = new Claim(IDNum,claimDate,targetCustomer,targetCard,examDate,claimAmount,bankingInfo);
+                        cl.Save("Claims",cl.getID(),cl);
+                        targetCustomer.Save("Customers",targetCustomer.getID(),targetCustomer);
+                        targetCustomer.addClaim(cl);
+                        targetCard.Save("InsuranceCards",targetCard.getCardNum(),targetCard);
                         System.out.println("Claim is completely updated in database");
                         System.out.println("Please update the list of document in update menu.");
                         System.out.println("1.Add more claim");
-                        System.out.println("2. Add customer");
-                        System.out.println("3. Add insurance card");
                         System.out.println("b. back to menu");
 
                         while (true){
                             String sc = scanner.nextLine();
                             switch (sc){
-                                case "2":createCustomer();
-                                case "3":createCard();
                                 case "1":createClaim();
                                 case "b":startMenu();
                                 default:
@@ -417,7 +262,7 @@ public class UserInterface {
                         }
                     case "n":
                     case "N":
-                        System.out.println("Going to main menu...\n");
+                        startMenu();
                         break;
                     default:
                         System.out.println("Invalid input, try again.");
@@ -429,61 +274,35 @@ public class UserInterface {
     }
 
 public class delete{
-    private static void deleteSelect() throws IOException {
-        System.out.println("Plase the type you want to delete from database.");
-        System.out.println("1. Claim");
-        System.out.println("2. Customer");
-        System.out.println("3. Insurance card");
-        System.out.println("b. Back to start menu");
-        String deleteOption = scanner.nextLine();
-        switch (deleteOption) {
-            case "B":
-            case "b":
-                System.out.println("Back to start menu...");
-                System.out.println("");
-
-            case "1":
-                deleteClaim();
-                break;
-            case "2":
-                deleteCustomer();
-                break;
-            case "3":
-                deleteInsuranceCard();
-                break;
-            case "4":
-                // 4번 메뉴 코드를 여기에 추가
-                break;
-            default:
-                System.out.println("Invalid input.");
-                break;
-        }}
     private static void deleteClaim() throws IOException {
-        System.out.println("Please type the claim ID");
-        /*claim list들*/
-        ClaimOrder.LoadAllClaim();
+        System.out.println("Please type the claim ID number");
+        System.out.println("Existed claims :");
+        ArrayList<Claim> claimList = ClaimOrder.LoadAllClaim();
+        for(Claim c1 : claimList){
+            System.out.println(c1);
+        }
         while (true){
-            String ID = scanner.nextLine();
             System.out.println("Please type 0, if you want to back to mainmenu.");
+            String ID = scanner.nextLine();
             if(ID.equals("0")){
                 startMenu();
             }
-            if(!duplicationClarify("F-"+ID)){
-                String deleteAffirm = scanner.nextLine();
+            if(!duplicationClarify("f-"+ID)){
+
                 System.out.println("Are you sure to delete this data permanently? (y/n)");
+                String deleteAffirm = scanner.nextLine();
                 switch (deleteAffirm){
                     case "Y":
                     case "y":
-                        Functions.delete.delete("Claims","F-"+ID);
-                        System.out.println("Claim is completely deleted.\n Do you want to delete customer and insurance card related with it press Y" +
+                        Functions.delete.delete("Claims",ID+".ser");
+                        System.out.println("Claim is completely deleted.\n Do you want to delete other claim, press Y \n" +
                                 "If you want to back main menu, press b");
                         while (true){
                             String selection = scanner.nextLine();
                             switch (selection){
                                 case "Y":
                                 case "y":
-                                    Claim targetClaim = returnClaim("f-"+ID);
-                                    /*연결되어 있는게 해제되게 하는 코드*/
+                                    delete.deleteClaim();
                                 case "B":
                                 case "b":
                                     startMenu();
@@ -524,136 +343,7 @@ public class delete{
 
 
     }
-    private static void deleteCustomer() throws IOException {
-        System.out.println("Please type the customer ID");
-        /*claim list들*/
-        CustomerOrder.LoadAllCustomer();
-        String ID = scanner.nextLine();
-        while (true){
-            System.out.println("Please type 0, if you want to back to mainmenu.");
-            if(ID=="0"){
-                startMenu();
-            }
-            if(!duplicationClarify("c-"+ID)){
-                String deleteAffirm = scanner.nextLine();
-                System.out.println("Are you sure to delete this data permanently? (y/n)");
-                switch (deleteAffirm){
-                    case "Y":
-                    case "y":
-                        Functions.delete.delete("Customers","c-"+ID);
-                        System.out.println("Customer is completely deleted.\n Do you want to delete claims and insurance cards related with it press Y" +
-                                "If you want to back main menu, press b");/*나중에 같이 연결성 해제되게 할것*/
-                        while (true){
-                            String selection = scanner.nextLine();
-                            switch (selection){
-                                case "Y":
-                                case "y":
-                                    Customer targetCustomer = returnCustomer("c-"+ID);
-                                    /*연결되어 있는게 해제되게 하는 코드*/
-                                case "B":
-                                case "b":
-                                    startMenu();
-                                default:
-                                    System.out.println("Invalid option. Please type correctly");
 
-                            }
-
-                        }
-                    case "N":
-                    case "n":
-                        System.out.println("If you want to back to delete menu, press d");
-                        System.out.println("If you want to back to start menu, press b");
-                        while (true){
-                            String selection = scanner.nextLine();
-                            switch (selection){
-                                case "D":
-                                case "d":
-                                    deleteClaim();
-                                case "B":
-                                case "b":
-                                    startMenu();
-                                default:
-                                    System.out.println("Invalid option. Please type correctly");
-
-                            }
-
-                        }
-                    default:
-                        System.out.println("Invalid option. Please type correctly");
-                }
-                break;
-            }
-            else{
-                System.out.println("Customer ID is not existed in our database, please try again");
-
-            }
-        }
-
-    }
-    private static void deleteInsuranceCard() throws IOException {
-        System.out.println("Please type the insurance card ID");
-        InsuranceCardOrder.LoadAllInsuranceCard();
-        String ID = scanner.nextLine();
-        while (true){
-            System.out.println("Please type 0, if you want to back to mainmenu.");
-            if(ID=="0"){
-                startMenu();
-            }
-            if(!duplicationClarify("I-"+ID)){
-                String deleteAffirm = scanner.nextLine();
-                System.out.println("Are you sure to delete this data permanently? (y/n)");
-                switch (deleteAffirm){
-                    case "Y":
-                    case "y":
-                        Functions.delete.delete("InsuranceCards","I-"+ID);
-                        System.out.println("Insurance card is completely deleted.\n Do you want to delete claims and insurance cards related with it press Y" +
-                                "If you want to back main menu, press b");/*나중에 같이 연결성 해제되게 할것*/
-                        while (true){
-                            String selection = scanner.nextLine();
-                            switch (selection){
-                                case "Y":
-                                case "y":
-                                    Customer targetCustomer = returnCustomer("c-"+ID);
-                                    /*연결되어 있는게 해제되게 하는 코드*/
-                                case "B":
-                                case "b":
-                                    startMenu();
-                                default:
-                                    System.out.println("Invalid option. Please type correctly");
-
-                            }
-
-                        }
-                    case "N":
-                    case "n":
-                        System.out.println("If you want to back to delete menu, press d");
-                        System.out.println("If you want to back to start menu, press b");
-                        while (true){
-                            String selection = scanner.nextLine();
-                            switch (selection){
-                                case "D":
-                                case "d":
-                                    deleteClaim();
-                                case "B":
-                                case "b":
-                                    startMenu();
-                                default:
-                                    System.out.println("Invalid option. Please type correctly");
-
-                            }
-
-                        }
-                    default:
-                        System.out.println("Invalid option. Please type correctly");
-                }
-                break;
-            }
-            else{
-                System.out.println("Insurance ID number is not existed in our database, please try again");
-            }
-        }
-
-    }
 }
 
     public class search{
@@ -706,7 +396,7 @@ public class delete{
                         while (true){
                             String input = scanner.nextLine();
                             if(!Clarification.duplicationClarify("c-"+input)){
-                            ArrayList<Claim> claims = claimSearch.claimSearchCustomerID("c-"+input);
+                            ArrayList<Claim> claims = claimSearch.claimSearchCustomerID(input);
                             for(Claim c : claims){
                                 System.out.println(c);
                             }
@@ -737,7 +427,7 @@ public class delete{
                         while (true){
                             String input = scanner.nextLine();
                             if(!Clarification.duplicationClarify("f-"+input)){
-                                System.out.println(claimSearch.claimSearchClaimID("f-"+input));
+                                System.out.println(claimSearch.claimSearchClaimID("f-"));
                                 break;
                             }else if(input.equals("0")){
                                 startMenu();
@@ -764,8 +454,8 @@ public class delete{
                         System.out.println("Please type 0 to back to main menu.");
                         while (true){
                             String input = scanner.nextLine();
-                            if(!Clarification.duplicationClarify("I-"+input)){
-                                ArrayList<Claim> claims = claimSearch.claimSearchCustomerID("I-"+input);
+                            if(!Clarification.duplicationClarify(input)){
+                                ArrayList<Claim> claims = claimSearch.claimSearchInsuranceCardNum(input);
                                 for(Claim c : claims){
                                     System.out.println(c);
                                 }
@@ -900,7 +590,7 @@ public class delete{
                         while (true){
                             String input = scanner.nextLine();
                             if(customerSearch.customerSearchClarification(input)){
-                                Customer target = customerSearch.customerSearchCustomerID(input);
+                                Customer target = customerSearch.customerSearchCustomerName(input);
                                 System.out.println(target);
                                 break;
                             }else if(input.equals("0")){
@@ -922,10 +612,67 @@ public class delete{
                                     break;
                                 default: System.out.println("Invalid input. Please type again.");
                             }}
-                    case "3":
+                    case "3":System.out.println("Please type the insurance card ID number. ID number must be more than 10 digits.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(!Clarification.duplicationClarify(input)){
+                                Customer target = customerSearch.customerSearchInsuranceCardID(input);
+                                System.out.println(target);
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same ID in customer database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelect();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
 
                     case "4":
-                    case "b":
+                        System.out.println("Please type the claim ID number. ID number must be than 10 digits.");
+                        System.out.println("Please type 0 to back to main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            if(!Clarification.duplicationClarify("c-"+input)){
+                                Customer target = customerSearch.customerSearchClaimID(input);
+                                System.out.println(target);
+                                break;
+                            }else if(input.equals("0")){
+                                startMenu();
+                                break;
+                            }
+                            System.out.println("We cannot find the same ID in customer database. Please type again. ");
+                        }
+                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        while (true){
+                            String input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    searchSelect();
+                                    break;
+                                case"b":
+                                case"B":
+                                    startMenu();
+                                    break;
+                                default: System.out.println("Invalid input. Please type again.");
+                            }
+                        }
+                    case "B":
+                    case "b":startMenu();
+                        break;
                     default:System.out.println("Invalid input, please type again.");
                 }
             }
@@ -934,7 +681,7 @@ public class delete{
         }
         private static void searchSelectOptionInsuranceCard() throws IOException {
             System.out.println("Please select the search option.");
-            System.out.println("1. Card number");
+            System.out.println("1. Insurance card number");
             System.out.println("2. Card holder full name");
             System.out.println("b. Back to start menu");
             while (true){
@@ -945,7 +692,7 @@ public class delete{
                         System.out.println("Please type 0 to back to main menu.");
                         while (true){
                             String input = scanner.nextLine();
-                            if(!Clarification.duplicationClarify("I-"+input)){
+                            if(!Clarification.duplicationClarify(input)){
                                 ArrayList<InsuranceCard> card = insuranceCardSearch.insuranceCardSearchCardNumber(input);
                                 System.out.println(card);
                                 break;
@@ -1017,7 +764,7 @@ public class delete{
                         while (true){
                             String input = scanner.nextLine();
                             if(customerSearch.customerSearchClarification(input)){
-                                System.out.println(customerSearch.customerSearchCustomerName(input));
+                                System.out.println(customerSearch.customerSearchCustomerID(input));
                                 break;
                             }else if(input.equals("0")){
                                 startMenu();
@@ -1083,21 +830,22 @@ public class delete{
                 ArrayList<Claim> claims = ClaimOrder.claimDateAscending();
                 for (Claim c : claims){
                     System.out.println("["+index+"]" +" "+c );
+                    index +=1;
                 }
-                String searchOption = scanner.nextLine();
                 System.out.println("If you want to select the claim and do more work, type infront number");
                 System.out.println("-1. Back to view menu.");
                 int claimSize = claims.size();
                 while (true){
-                    String input = scanner.nextLine();
+                    int input = scanner.nextInt();
                     try{
-                        Integer number = Integer.valueOf(input);
+                        int number = input;
                         if(number<=claimSize-1){
                             if(number == -1){
                                 startMenu();
                                 break;
                             }else{
                                 Claim target = claims.get(number);
+                                orderClaimDetail(target.getID());
                             }
                         }
                     }
@@ -1114,21 +862,22 @@ public class delete{
                 ArrayList<Claim> claims = ClaimOrder.claimIDAscendingSort();
                 for (Claim c : claims){
                     System.out.println("["+index+"]" +" "+c );
+                    index +=1;
                 }
-                String searchOption = scanner.nextLine();
-                System.out.println("If you want to select the claim and do more work, type index number");
+                System.out.println("If you want to select the claim and do more work, type infront number");
                 System.out.println("-1. Back to view menu.");
                 int claimSize = claims.size();
                 while (true){
-                    String input = scanner.nextLine();
+                    int input = scanner.nextInt();
                     try{
-                        Integer number = Integer.valueOf(input);
+                        int number = input;
                         if(number<=claimSize-1){
                             if(number == -1){
                                 startMenu();
                                 break;
                             }else{
                                 Claim target = claims.get(number);
+                                orderClaimDetail(target.getID());
                             }
                         }
                     }
@@ -1145,21 +894,22 @@ public class delete{
                 ArrayList<Claim> claims = ClaimOrder.claimStatusSort();
                 for (Claim c : claims){
                     System.out.println("["+index+"]" +" "+c );
+                    index +=1;
                 }
-                String searchOption = scanner.nextLine();
                 System.out.println("If you want to select the claim and do more work, type infront number");
                 System.out.println("-1. Back to view menu.");
                 int claimSize = claims.size();
                 while (true){
-                    String input = scanner.nextLine();
+                    int input = scanner.nextInt();
                     try{
-                        Integer number = Integer.valueOf(input);
+                        int number = input;
                         if(number<=claimSize-1){
                             if(number == -1){
                                 startMenu();
                                 break;
                             }else{
                                 Claim target = claims.get(number);
+                                orderClaimDetail(target.getID());
                             }
                         }
                     }
@@ -1176,21 +926,22 @@ public class delete{
                 ArrayList<Claim> claims = ClaimOrder.claimAmountAscendingSort();
                 for (Claim c : claims){
                     System.out.println("["+index+"]" +" "+c );
+                    index +=1;
                 }
-                String searchOption = scanner.nextLine();
                 System.out.println("If you want to select the claim and do more work, type infront number");
                 System.out.println("-1. Back to view menu.");
                 int claimSize = claims.size();
                 while (true){
-                    String input = scanner.nextLine();
+                    int input = scanner.nextInt();
                     try{
-                        Integer number = Integer.valueOf(input);
+                        int number = input;
                         if(number<=claimSize-1){
                             if(number == -1){
                                 startMenu();
                                 break;
                             }else{
                                 Claim target = claims.get(number);
+                                orderClaimDetail(target.getID());
                             }
                         }
                     }
@@ -1206,7 +957,7 @@ public class delete{
 
 
             private static void orderClaimDetail(String ID) throws IOException {
-                Claim target = Load.returnClaim("c-"+ID);
+                Claim target = Load.returnClaim(ID);
                 System.out.println("Please type the work");
                 System.out.println("1. Update");
                 System.out.println("2. Delete");
@@ -1229,7 +980,7 @@ public class delete{
                                     case "Y":
                                     case "y":
                                         System.out.println("Data is now deleting... ");
-                                        Functions.delete.delete("Claims",ID);
+                                        Functions.delete.delete("Claims",ID+".ser");
                                         System.out.println("0. Back to claim display  1. Back to start menu.");
                                         while (true){
                                             input = scanner.nextLine();
@@ -1294,6 +1045,7 @@ public class delete{
                             switch (input) {
                                 case "1":
                                     target.setClaimStatus(Claim.Status.New);
+                                    target.Save("Claims",target.getID(),target);
                                     System.out.println("Status is changed");
                                     System.out.println("1. Back to this claim's update display");
                                     System.out.println("b. Back to claim display");
@@ -1312,6 +1064,7 @@ public class delete{
                                     }
                                 case "2":
                                     target.setClaimStatus(Claim.Status.Processing);
+                                    target.Save("Claims",target.getID(),target);
                                     System.out.println("Status is changed");
                                     System.out.println("1. Back to this claim's update display");
                                     System.out.println("b. Back to claim display");
@@ -1320,6 +1073,7 @@ public class delete{
                                         switch (input) {
                                             case "1":
                                                 order.orderClaimDetail(target.getID());
+                                                target.Save("Claims",target.getID(),target);
                                                 break;
                                             case "b":
                                                 view.viewClaimSelect();
@@ -1411,6 +1165,7 @@ public class delete{
                                     System.out.println("Please type the name of document name.");
                                     System.out.println("File format : ClaimId_CardNumber_DocumentName.pdf");
                                     while (true) {
+                                        System.out.println("b. Back to main menu.");
                                         input = scanner.nextLine();
                                         String fileName = target.getID() + "_" + target.getCardNum() + "_" + input + ".pdf";
                                         if (target.getListOfDocuments().contains(fileName)) {
@@ -1461,13 +1216,12 @@ public class delete{
                                                 }
                                             }
 
+                                        } else if (input.equals("b")) {
+                                            startMenu();
                                         } else {
                                             System.out.println("There's no matched file name in the database.");
                                         }
-
-
                                     }
-
                                 default:
                                     System.out.println("Invalid input, please type again.");
                             }
@@ -1480,8 +1234,8 @@ public class delete{
                         System.out.println("Please type the bank number.");
                         String bankNumber = scanner.nextLine();
                         String bankingInfo = bankName + "-" + name + "-" + bankNumber;
-                        System.out.println("Following information is correct?(y/n)");
                         System.out.println(bankingInfo);
+                        System.out.println("Following information is correct?(y/n)");
                         input = scanner.nextLine();
                         switch (input) {
                             case "Y":
@@ -1519,32 +1273,6 @@ public class delete{
 
 
 
-    }
-    public ArrayList<String> returnIncludeKeywords(String object, String keywords) {
-        ArrayList<String> result = null;
-        switch (object) {
-            case "Claim":
-            case "Customer":
-            case "InsuranceCard":
-                String projectRoot = System.getProperty("user.dir");
-                String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/" + object + "s/";
-                int index = 0;
-                try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(path), keywords + "*.txt")) {
-                    for (Path entry : stream) {
-                        System.out.printf("%d. ", index);
-                        System.out.println(entry.getFileName());
-                        result.add("" + entry.getFileName());
-                        index += 1;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                System.out.println("It is not a valid option");
-                return result;
-        }
-        return result;
     }
 
 }
