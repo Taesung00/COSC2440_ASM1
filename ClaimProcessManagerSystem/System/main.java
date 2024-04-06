@@ -2,7 +2,6 @@ import Components.Entities.Claim;
 import Components.Entities.Customer;
 import Components.Entities.InsuranceCard;
 import Functions.Clarification;
-import Functions.Load;
 import Functions.Order.ClaimOrder;
 import Functions.Order.InsuranceCardOrder;
 import Functions.Save;
@@ -86,11 +85,10 @@ public class main {
       c4.Save("Customers",c4.getID(),c4);
       i4.Save("InsuranceCards",i4.getCardNum(),i4);
 
-////      Load.ListAllComponents();
-//      ArrayList<Claim> cl1 = ClaimOrder.claimStatusSort();
-//      for(Claim cli1 : cl1){
-//        System.out.println(cli1);
-//      }
+      ArrayList<Claim> cl1 = ClaimOrder.claimStatusSort();
+      for(Claim cli1 : cl1){
+        System.out.println(cli1);
+      }
 
 
 
