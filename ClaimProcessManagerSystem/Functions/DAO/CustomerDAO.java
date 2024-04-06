@@ -69,7 +69,9 @@ public class CustomerDAO implements Serializable,Save {
                 String name = f.getName();
                 try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
                     Object obj = input.readObject();
-                    results.add((Customer) obj);
+                    if(!results.contains(obj)){
+                        results.add((Customer) obj);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {

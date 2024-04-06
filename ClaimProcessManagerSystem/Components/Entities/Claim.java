@@ -70,7 +70,9 @@ public class Claim extends ClaimProcessManagerImpl implements Serializable, Save
         this.ListOfDocuments.remove(documentName);
     }
     public void addDocument(String documentName){
-        this.ListOfDocuments.add(documentName);
+        if(!this.ListOfDocuments.contains(documentName)){
+            this.ListOfDocuments.add(documentName);
+        }
     }/*ClaimId_CardNumber_DocumentName.pdf*/
 
 

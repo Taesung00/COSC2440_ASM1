@@ -135,122 +135,212 @@ public class update {
                     }
                 case "2":
                     ArrayList<String> documents = target.getListOfDocuments();
-                    System.out.println();
-                    System.out.println("1. Adding document 2. Deleting document");
-                    while (true) {
-                        input = scanner.nextLine();
-                        switch (input) {
-                            case "1":
-                                System.out.println("Please type the name of document");
-                                String documentName = scanner.nextLine();
-                                System.out.println("'" + documentName + "'is right?(y/n)");
-                                while (true) {
-                                    input = scanner.nextLine();
-                                    switch (input) {
-                                        case "y":
-                                        case "Y":
-                                            target.addDocument(target.getID() + "_" + target.getCardNum() + "_" + documentName + ".pdf");
-                                            System.out.println("Document is successfully added to claim.");
-                                            System.out.println("1. Back to this claim's update display");
-                                            System.out.println("b. Back to claim display");
-                                            while (true) {
-                                                input = scanner.nextLine();
-                                                switch (input) {
-                                                    case "1":
-                                                        orderClaimDetail(target.getID());
-                                                        break;
-                                                    case "b":
-                                                        view.viewClaimSelect();
-                                                        break;
-                                                    default:
-                                                        System.out.println("Invalid input, please type again.");
-                                                }
-                                            }
-                                        case "N":
-                                        case "n":
-                                            System.out.println("1. Back to this claim's update display");
-                                            System.out.println("b. Back to claim display");
-                                            while (true) {
-                                                input = scanner.nextLine();
-                                                switch (input) {
-                                                    case "1":
-                                                        orderClaimDetail(target.getID());
-                                                        break;
-                                                    case "b":
-                                                        view.viewClaimSelect();
-                                                        break;
-                                                    default:
-                                                        System.out.println("Invalid input, please type again.");
-                                                }
-                                            }
-                                        default:
-                                            System.out.println("Invalid input, please type again.");
-                                    }
-                                }
-                            case "2":
-                                System.out.println("Please type the name of document name.");
-                                System.out.println("File format : ClaimId_CardNumber_DocumentName.pdf");
-                                while (true) {
-                                    System.out.println("b. Back to main menu.");
-                                    input = scanner.nextLine();
-                                    String fileName = target.getID() + "_" + target.getCardNum() + "_" + input + ".pdf";
-                                    if (target.getListOfDocuments().contains(fileName)) {
-                                        System.out.println("Are you sure to delete it permanentely? (y/n)");
+                    if(documents.isEmpty()){
+                        System.out.println("Document list is empty.");
+                        System.out.println("1. Adding document    b. Back to claim display");
+                        while (true){
+                            input = scanner.nextLine();
+                            switch (input){
+                                case "1":
+                                    System.out.println("Please type the name of document");
+                                    String documentName = scanner.nextLine();
+                                    System.out.println("Please type the detail text of document");
+                                    String documentText = scanner.nextLine();
+                                    System.out.println("'" + documentName + ": "+documentText+" is right?(y/n)");
+                                    ArrayList<String> fileNames = manager.getAllPDFFileNames();
+                                    if(fileNames.contains(target.getID() + "_" + target.getCardNum() + "_" + documentName + ".pdf")){
+                                        System.out.println("File name is duplicated. Back to update prompt.");
+                                        UpdateClaimSelect(target);
+                                        break;
+                                    }else{
                                         while (true) {
-                                            input = scanner.nextLine();
-                                            switch (input) {
-                                                case "Y":
-                                                case "y":
-                                                    target.deleteDocument(fileName);
-                                                    System.out.println("Selected file is completely removed.");
-                                                    System.out.println("1. Back to this claim's update display");
-                                                    System.out.println("b. Back to claim display");
-                                                    while (true) {
-                                                        input = scanner.nextLine();
-                                                        switch (input) {
-                                                            case "1":
-                                                                orderClaimDetail(target.getID());
-                                                                break;
-                                                            case "b":
-                                                                view.viewClaimSelect();
-                                                                break;
-                                                            default:
-                                                                System.out.println("Invalid input, please type again.");
-                                                        }
+                                        input = scanner.nextLine();
+                                        switch (input) {
+                                            case "y":
+                                            case "Y":
+                                                manager.wirtePDFFiles(target,target.getID() + "_" + target.getCardNum() + "_" + documentName + ".pdf",documentText);
+                                                target.addDocument(target.getID() + "_" + target.getCardNum() + "_" + documentName + ".pdf");
+                                                manager.update(target);
+                                                System.out.println("Document is successfully added to claim.");
+                                                System.out.println("1. Back to this claim's update display");
+                                                System.out.println("b. Back to claim display");
+                                                while (true) {
+                                                    input = scanner.nextLine();
+                                                    switch (input) {
+                                                        case "1":
+                                                            orderClaimDetail(target.getID());
+                                                            break;
+                                                        case "b":
+                                                            view.viewClaimSelect();
+                                                            break;
+                                                        default:
+                                                            System.out.println("Invalid input, please type again.");
                                                     }
-
-
-                                                case "N":
-                                                case "n":
-                                                    System.out.println("1. Back to this claim's update display");
-                                                    System.out.println("b. Back to claim display");
-                                                    while (true) {
-                                                        input = scanner.nextLine();
-                                                        switch (input) {
-                                                            case "1":
-                                                                orderClaimDetail(target.getID());
-                                                                break;
-                                                            case "b":
-                                                                view.viewClaimSelect();
-                                                                break;
-                                                            default:
-                                                                System.out.println("Invalid input, please type again.");
-                                                        }
+                                                }
+                                            case "N":
+                                            case "n":
+                                                System.out.println("1. Back to this claim's update display");
+                                                System.out.println("b. Back to claim display");
+                                                while (true) {
+                                                    input = scanner.nextLine();
+                                                    switch (input) {
+                                                        case "1":
+                                                            orderClaimDetail(target.getID());
+                                                            break;
+                                                        case "b":
+                                                            view.viewClaimSelect();
+                                                            break;
+                                                        default:
+                                                            System.out.println("Invalid input, please type again.");
                                                     }
-                                                default:
-                                                    System.out.println("Invalid input, please type again.");
-                                            }
+                                                }
+                                            default:
+                                                System.out.println("Invalid input, please type again.");
                                         }
-
-                                    } else if (input.equals("b")) {
-                                        startMenu();
-                                    } else {
-                                        System.out.println("There's no matched file name in the database.");
                                     }
-                                }
-                            default:
-                                System.out.println("Invalid input, please type again.");
+                                    }
+                                case"b":
+                                case "B": view.viewClaimSelect();
+                                    break;
+                                default:System.out.println("Invalid input, please try again.");
+                            }
                         }
+
+
+
+
+                    }else{
+                        System.out.println(documents);
+                        System.out.println();
+                        System.out.println("1. Adding document 2. Deleting document");
+                        while (true) {
+                            input = scanner.nextLine();
+                            switch (input) {
+                                case "1":
+                                    System.out.println("Please type the name of document");
+                                    String documentName = scanner.nextLine();
+                                    System.out.println("Please type the detail text of document");
+                                    String documentText = scanner.nextLine();
+                                    System.out.println("'" + documentName + ": "+documentText+" is right?(y/n)");
+                                    ArrayList<String> fileNames = manager.getAllPDFFileNames();
+                                    if(fileNames.contains(target.getID() + "_" + target.getCardNum() + "_" + documentName + ".pdf")){
+                                        System.out.println("File name is duplicated. Back to update prompt.");
+                                        UpdateClaimSelect(target);
+                                        break;
+                                    }else{                                while (true) {
+                                        input = scanner.nextLine();
+                                        switch (input) {
+                                            case "y":
+                                            case "Y":
+                                                manager.wirtePDFFiles(target,target.getID() + "_" + target.getCardNum() + "_" + documentName + ".pdf",documentText);
+                                                target.addDocument(target.getID() + "_" + target.getCardNum() + "_" + documentName + ".pdf");
+                                                manager.update(target);
+                                                System.out.println("Document is successfully added to claim.");
+                                                System.out.println("1. Back to this claim's update display");
+                                                System.out.println("b. Back to claim display");
+                                                while (true) {
+                                                    input = scanner.nextLine();
+                                                    switch (input) {
+                                                        case "1":
+                                                            orderClaimDetail(target.getID());
+                                                            break;
+                                                        case "b":
+                                                            view.viewClaimSelect();
+                                                            break;
+                                                        default:
+                                                            System.out.println("Invalid input, please type again.");
+                                                    }
+                                                }
+                                            case "N":
+                                            case "n":
+                                                System.out.println("1. Back to this claim's update display");
+                                                System.out.println("b. Back to claim display");
+                                                while (true) {
+                                                    input = scanner.nextLine();
+                                                    switch (input) {
+                                                        case "1":
+                                                            orderClaimDetail(target.getID());
+                                                            break;
+                                                        case "b":
+                                                            view.viewClaimSelect();
+                                                            break;
+                                                        default:
+                                                            System.out.println("Invalid input, please type again.");
+                                                    }
+                                                }
+                                            default:
+                                                System.out.println("Invalid input, please type again.");
+                                        }
+                                    }
+                                    }
+                                case "2":
+                                    System.out.println("Please type the name of document name.");
+                                    System.out.println("File format : ClaimId_CardNumber_DocumentName.pdf");
+                                    while (true) {
+                                        System.out.println("b. Back to main menu.");
+                                        input = scanner.nextLine();
+                                        String fileName = target.getID() + "_" + target.getCardNum() + "_" + input + ".pdf";
+                                        if (target.getListOfDocuments().contains(fileName)) {
+                                            System.out.println("Are you sure to delete it permanentely? (y/n)");
+                                            while (true) {
+                                                input = scanner.nextLine();
+                                                switch (input) {
+                                                    case "Y":
+                                                    case "y":
+                                                        target.deleteDocument(fileName);
+                                                        manager.deletePDFFiles(fileName);
+                                                        manager.update(target);
+                                                        System.out.println("Selected file is completely removed.");
+                                                        System.out.println("1. Back to this claim's update display");
+                                                        System.out.println("b. Back to claim display");
+                                                        while (true) {
+                                                            input = scanner.nextLine();
+                                                            switch (input) {
+                                                                case "1":
+                                                                    orderClaimDetail(target.getID());
+                                                                    break;
+                                                                case "b":
+                                                                    view.viewClaimSelect();
+                                                                    break;
+                                                                default:
+                                                                    System.out.println("Invalid input, please type again.");
+                                                            }
+                                                        }
+
+
+                                                    case "N":
+                                                    case "n":
+                                                        System.out.println("1. Back to this claim's update display");
+                                                        System.out.println("b. Back to claim display");
+                                                        while (true) {
+                                                            input = scanner.nextLine();
+                                                            switch (input) {
+                                                                case "1":
+                                                                    orderClaimDetail(target.getID());
+                                                                    break;
+                                                                case "b":
+                                                                    view.viewClaimSelect();
+                                                                    break;
+                                                                default:
+                                                                    System.out.println("Invalid input, please type again.");
+                                                            }
+                                                        }
+                                                    default:
+                                                        System.out.println("Invalid input, please type again.");
+                                                }
+                                            }
+
+                                        } else if (input.equals("b")) {
+                                            startMenu();
+                                        } else {
+                                            System.out.println("There's no matched file name in the database.");
+                                        }
+                                    }
+                                default:
+                                    System.out.println("Invalid input, please type again.");
+                            }
+                        }
+
                     }
                 case "3":
                     System.out.println("Please type the bank name.");

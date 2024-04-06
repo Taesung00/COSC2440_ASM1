@@ -2,6 +2,11 @@ package Functions.DAO;
 
 import Components.Entities.Claim;
 import Functions.Save;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -16,7 +21,69 @@ import java.util.ArrayList;
 public class ClaimProcessManagerImpl implements Serializable,Save, ClaimProcessManager {
     private static final long serialVersionUID = 6L;
 
+    public ArrayList<String> getAllPDFFileNames(){
+        String projectRoot = System.getProperty("user.dir");
+        ArrayList<String> results = new ArrayList<>();
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components/Data/ClaimDocuments";
+        File folder = new File(path);
+        File[] FileList = folder.listFiles();
+        for (File f : FileList) {
+            if (f.isFile() && f.getName().endsWith(".pdf")){
+                String name = f.getName();
+                if (!results.contains(name)) { // Check if the file name is already in the list
+                    results.add(name);
+                }
+            }
 
+        }
+        return results;
+    }
+
+    public void wirtePDFFiles(Claim claim,String FileName ,String textDetail) throws IOException {
+        String projectRoot = System.getProperty("user.dir");
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components/Data/ClaimDocuments";
+        try {
+            PDDocument document = new PDDocument();
+            // Add a page
+            PDPage p = new PDPage();
+            document.addPage(p);
+            // Start a new content stream
+            PDPageContentStream contentStream = new PDPageContentStream(document, p);
+
+            // Set font and font size
+            contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
+
+            // Write text
+            contentStream.beginText();
+            contentStream.newLineAtOffset(100, 700); // Set the position where you want to start writing
+            contentStream.showText(textDetail);
+            contentStream.endText();
+
+            // Make sure to close the content stream
+            contentStream.close();
+
+            // Save the document
+            document.save(path+"/"+FileName);
+
+            // Close the document
+            document.close();
+
+            System.out.printf("%s file is created successfully! \n",FileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        claim.addDocument(FileName);
+    }
+    public void deletePDFFiles(String FileName){
+        String projectRoot = System.getProperty("user.dir");
+        String path = projectRoot + "/ClaimProcessManagerSystem/Components/Data/ClaimDocuments";
+        try {
+            Path filePath = Paths.get(path, FileName);
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void add(Claim Claim) throws IOException {
         Claim c1 = Claim;
@@ -75,7 +142,9 @@ public class ClaimProcessManagerImpl implements Serializable,Save, ClaimProcessM
                 String name = f.getName();
                 try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
                     Object obj = input.readObject();
-                    results.add((Claim) obj);
+                    if(!results.contains(obj)){
+                        results.add((Claim) obj);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {

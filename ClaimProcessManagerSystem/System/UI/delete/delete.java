@@ -40,7 +40,7 @@ public class delete{
                                 case "Y":
                                 case "y":
                                     manager.delete(target.getID()+".ser");
-                                    System.out.println("Claim is completely deleted.\n Do you want to delete other claim, press Y \n" +
+                                    System.out.println("Claim is completely deleted.\nDo you want to delete other claim, press Y \n" +
                                             "If you want to back main menu, press b");
                                     while (true){
                                         String selection = scanner.nextLine();

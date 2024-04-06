@@ -69,7 +69,9 @@ public class InsuranceCardDAO implements Save, Serializable {
                 String name = f.getName();
                 try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
                     Object obj = input.readObject();
-                    results.add((InsuranceCard) obj);
+                    if(!results.contains(obj)){
+                        results.add((InsuranceCard) obj);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
