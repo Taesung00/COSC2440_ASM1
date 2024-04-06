@@ -4,13 +4,14 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import Functions.DAO.ClaimProcessManagerImpl;
 import Functions.Save;
 
 /**
  * @author <Taesung Yoon - S3847581>
  */
 
-public class Claim implements  Serializable,Save{
+public class Claim extends ClaimProcessManagerImpl implements Serializable, Save{
     private static final long serialVersionUID = 1L;
     private final String ID; /*(with the format f-numbers; 10 numbers*/
     private LocalDate ClaimDate;

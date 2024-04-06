@@ -11,6 +11,10 @@ import java.time.LocalDate;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
+
 public class main {
     public static void main(String[] args) throws IOException {
       Customer c1 =  new Customer("0000001","Mathew");
@@ -81,7 +85,6 @@ public class main {
       f4.Save("Claims",f4.getID(),f4);
       c4.Save("Customers",c4.getID(),c4);
       i4.Save("InsuranceCards",i4.getCardNum(),i4);
-System.out.println(InsuranceCardOrder.LoadAllInsuranceCard());
 
 ////      Load.ListAllComponents();
 //      ArrayList<Claim> cl1 = ClaimOrder.claimStatusSort();

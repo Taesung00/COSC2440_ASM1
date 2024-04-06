@@ -1,12 +1,17 @@
 package Functions.Search;
 
 import Components.Entities.InsuranceCard;
-import Functions.Order.InsuranceCardOrder;
+import Functions.DAO.InsuranceCardDAO;
 
 import java.util.ArrayList;
 
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
+
 public class insuranceCardSearch {
-    public static ArrayList<InsuranceCard> insuranceCards = InsuranceCardOrder.LoadAllInsuranceCard();
+    static InsuranceCardDAO manager = new InsuranceCardDAO();
+    public static ArrayList<InsuranceCard> insuranceCards = manager.getAll();
 
 
     public static ArrayList<InsuranceCard> insuranceCardSearchCustomerName(String name){

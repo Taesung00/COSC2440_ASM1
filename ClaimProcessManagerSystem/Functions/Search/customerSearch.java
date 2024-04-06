@@ -2,13 +2,17 @@ package Functions.Search;
 
 import Components.Entities.Claim;
 import Components.Entities.Customer;
-import Functions.Order.CustomerOrder;
+import Functions.DAO.CustomerDAO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
+
 public class customerSearch {
-    static ArrayList<Customer> customers = CustomerOrder.LoadAllCustomer();
+    static CustomerDAO manager = new CustomerDAO();
+    static ArrayList<Customer> customers = manager.getAll();
     public static Customer customerSearchCustomerID(String ID) {
         Customer result = new Customer();
         for(Customer customer : customers){

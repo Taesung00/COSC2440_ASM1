@@ -1,32 +1,37 @@
 package Functions.Order;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import Components.Entities.Claim;
+import Functions.DAO.ClaimProcessManagerImpl;
 
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
 
-public class ClaimOrder{
+public class ClaimOrder implements order{
+    static ClaimProcessManagerImpl manager = new ClaimProcessManagerImpl();
 
-    private static ArrayList<Claim> ClaimList = (ArrayList<Claim>) LoadAllClaim();
     public static ArrayList<Claim> claimDateAscending(){
+        ArrayList<Claim> ClaimList = manager.getAll();
         Collections.sort(ClaimList,Comparator.comparing(Claim::getClaimDate));
         return ClaimList;
     }
     public static ArrayList<Claim> claimIDAscendingSort(){
+        ArrayList<Claim> ClaimList = manager.getAll();
         Collections.sort(ClaimList, Comparator.comparing(Claim::getID));
         return ClaimList;
     }
     public static ArrayList<Claim> claimAmountAscendingSort() {
+        ArrayList<Claim> ClaimList = manager.getAll();
         Collections.sort(ClaimList, Comparator.comparing(Claim::getClaimAmount));
         return ClaimList;
     }
     public static ArrayList<Claim> claimStatusSort() /*New > Processing > Done*/{
+        ArrayList<Claim> ClaimList = manager.getAll();
         Claim i1 = null;
         Claim i2 = null;
         Claim temp = null;
@@ -48,28 +53,6 @@ public class ClaimOrder{
         }
         return ClaimList;
     }
-    public static ArrayList<Claim> LoadAllClaim() {
-        /* 나중에 LoadAll로 따로 인터페이스 빼놓을것*/
-        String projectRoot = System.getProperty("user.dir");
-        ArrayList<Claim> results = new ArrayList<>();
-        String path = projectRoot + "/ClaimProcessManagerSystem/Components" + "/Data/Claims";
-        File folder = new File(path);
-        File[] FileList = folder.listFiles();
-        for (File f : FileList) {
-            if (f.isFile() && f.getName().endsWith(".ser")){
-                String name = f.getName();
-                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
-                    Object obj = input.readObject();
-                    results.add((Claim) obj);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        return results;    }
 
 
 }

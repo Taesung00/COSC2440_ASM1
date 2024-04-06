@@ -2,6 +2,8 @@ package Functions.Order;
 
 import Components.Entities.Claim;
 import Components.Entities.Customer;
+import Functions.DAO.ClaimProcessManagerImpl;
+import Functions.DAO.CustomerDAO;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,8 +13,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class CustomerOrder extends ClaimOrder{
-    private ArrayList<Customer> customerList = (ArrayList<Customer>) LoadAllCustomer();
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
+
+public class CustomerOrder implements order{
+    private ArrayList<Customer> customerList = manager.getAll();
+    static CustomerDAO manager = new CustomerDAO();
 
     public ArrayList<Customer> CustomerIDAscendingSort(){
         Collections.sort(customerList, Comparator.comparing(Customer::getID));
@@ -28,32 +35,5 @@ public class CustomerOrder extends ClaimOrder{
         Collections.sort(customerList, Comparator.comparing(Customer::getClaimNumber));
         return customerList;
     }
-
-
-
-
-
-    public static ArrayList<Customer> LoadAllCustomer() {
-
-        String projectRoot = System.getProperty("user.dir");
-        ArrayList<Customer> results = new ArrayList<>();
-        String path = projectRoot + "/ClaimProcessManagerSystem/Components/Data/Customers";
-        File folder = new File(path);
-        File[] FileList = folder.listFiles();
-        for (File f : FileList) {
-            if (f.isFile() && f.getName().endsWith(".ser")){
-                String name = f.getName();
-                try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(f))) {
-                    Object obj = input.readObject();
-                    results.add((Customer) obj);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-            }
-
-        return results;    }
 
 }
