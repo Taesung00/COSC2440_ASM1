@@ -29,7 +29,7 @@ public class UserInterface {
             System.out.println();
             System.out.println("                              Claim Process Managing system                          \n");
             System.out.println("Please select the menu.");
-            System.out.println("1. Update claims.");
+            System.out.println("1. Update claims // Print informations of claim's customer and insurance card.");
             System.out.println("2. Search components(Claim,Customer,Insurance card).");
             System.out.println("3. Create claims.");
             System.out.println("4. Delete claims.");

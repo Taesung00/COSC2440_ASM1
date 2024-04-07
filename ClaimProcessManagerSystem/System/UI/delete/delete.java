@@ -11,11 +11,15 @@ import static System.UI.UserInterface.startMenu;
 
 public class delete{
     public static void deleteClaim() throws IOException {
-        Scanner scanner = new Scanner(System.in);
         ClaimProcessManagerImpl manager = new ClaimProcessManagerImpl();
-        System.out.println("Please type the claim ID number");
-        System.out.println("Existed claims :");
+        Scanner scanner = new Scanner(System.in);
         ArrayList<Claim> claimList = manager.getAll();
+        if(claimList.isEmpty()){
+            System.out.println("There's no claim in the database. Back to main menu.");
+            startMenu();
+        }
+        System.out.println("Please select the claim");
+        System.out.println("Existed claims :");
         int index = 0;
         for (Claim c : claimList){
             System.out.println("["+index+"]" +" "+c );

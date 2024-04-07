@@ -31,9 +31,13 @@ public class create{
         System.out.println("Existed claims ID in our database : ");
         ArrayList<Claim> claimList =  manager.getAll();
         ArrayList<String> claimName = new ArrayList<String>();
-        for(Claim cl : claimList){
-            System.out.println(cl);
-            claimName.add(cl.getID());
+        if(!claimList.isEmpty()){
+            for(Claim cl : claimList){
+                System.out.println(cl);
+                claimName.add(cl.getID());
+            }
+        }else{
+            System.out.println("Claim list is empty.");
         }
         while (true){
             System.out.println("Please type 0, if you want to back to mainmenu.");
@@ -48,38 +52,9 @@ public class create{
             }
 
         }
-        System.out.println("Please select the card number.");
-        int index=0;
-        System.out.println("Cards in database : ");
-        InsuranceCardDAO InsuranceCardmanager = new InsuranceCardDAO();
-        ArrayList<InsuranceCard> cards =  InsuranceCardmanager.getAll();
-        for(InsuranceCard card : cards){
-            System.out.println("["+index+"]" +" "+card);
-            index +=1;
-
-        }
-        int cardsSize = cards.size();
-        while (true){
-            System.out.println("Please type -1, if you want to back to mainmenu.");
-            int input = scanner.nextInt();
-            try {
-                int number = input;
-                if (number <= cardsSize - 1) {
-                    if (number == -1) {
-                        startMenu();
-                        break;
-                    } else {
-                        targetCard = cards.get(number);
-                    }
-                }
-            }catch (NumberFormatException ex){
-                ex.printStackTrace();
-                System.out.println("Invalid input, try again.");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            System.out.println("Please select the ID of customer");
+            int index = 0;
+                InsuranceCardDAO InsuranceCardmanager = new InsuranceCardDAO();
+                System.out.println("Please select the customer");
             System.out.println("Customers in database : ");
             CustomerDAO CustomerManager = new CustomerDAO();
             ArrayList<Customer> customers = CustomerManager.getAll();
@@ -92,7 +67,7 @@ public class create{
             int customersSize = customers.size();
             while (true){
                 System.out.println("Please type -1, if you want to back to mainmenu.");
-                input = scanner.nextInt();
+                int input = scanner.nextInt();
                 try {
                     int number = input;
                     if (number <= customersSize - 1) {
@@ -101,6 +76,7 @@ public class create{
                             break;
                         } else {
                             targetCustomer = customers.get(number);
+                            targetCard = targetCustomer.getInsuranceCard();
                         }
                     }
                 }catch (NumberFormatException ex){
@@ -137,7 +113,7 @@ public class create{
                     System.out.println("An error occurred: " + e.getMessage());
                     createClaim();
                 }
-                String flush = scanner.nextLine();/*Flush scanner for error occuring*/
+                String flush = scanner.nextLine();/*Flush scanner to avoid error*/
                 System.out.println("Please type the receiver's bank name");
                 String bankN = scanner.nextLine();
                 System.out.println("Please type the receiver's name ");
@@ -192,5 +168,5 @@ public class create{
                 }
 
             }
-        }}}
+        }}
 

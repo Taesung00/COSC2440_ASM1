@@ -63,9 +63,6 @@ public class Customer implements Serializable,Save{
         return ID;
     }
 
-    public ArrayList<Customer> getDependentList() {
-        return dependentList;
-    }
     public void addDependent(Customer dependent){
         dependentList.add(dependent);
     }

@@ -1,9 +1,12 @@
 package System.UI.read;
 
+import Components.Entities.Claim;
+import Functions.Order.ClaimOrder;
 import System.UI.UserInterface;
 import System.UI.order.order;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static System.UI.UserInterface.startMenu;
@@ -12,6 +15,12 @@ import static System.UI.order.order.*;
 public class view{
     static Scanner scanner = new Scanner(System.in);
     public static void viewClaimSelect() throws IOException {
+        ArrayList<Claim> claims = ClaimOrder.claimDateAscending();
+        if(claims.isEmpty()){
+            System.out.println("Claim database is now empty. Back to main menu.");
+            startMenu();
+            return;
+        }
         System.out.println("Plase select the order category.");
         System.out.println("1. Claim date");
         System.out.println("2. Claim ID");
@@ -25,7 +34,7 @@ public class view{
                 System.out.println("Back to start menu...");
                 System.out.println("");
                 startMenu();
-                return; // 종료
+                return;
             case "1":
                 order.OrderClaimDate();
                 break;

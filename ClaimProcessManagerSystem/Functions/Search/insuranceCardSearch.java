@@ -32,14 +32,5 @@ public class insuranceCardSearch {
         }
         return result;
     }
-    public static boolean insuranceCardSearchClarification(String name){
-        for(InsuranceCard c : insuranceCards){
-            if(!(c.getCardHolder().equals(name))){
-                return false;
-            }
-            }
-
-        return true;
-    }
     }
 

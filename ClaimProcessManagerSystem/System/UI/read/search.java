@@ -4,6 +4,7 @@ import Components.Entities.Claim;
 import Components.Entities.Customer;
 import Components.Entities.InsuranceCard;
 import Functions.Clarification;
+import Functions.DAO.CustomerDAO;
 import Functions.Search.claimSearch;
 import Functions.Search.customerSearch;
 import Functions.Search.insuranceCardSearch;
@@ -60,7 +61,7 @@ public class search{
                 default:
                     System.out.println("Invalid input, please type again.");
                 case "1":
-                    System.out.println("Please type the customer ID number. ID number must be more than 10 digits.");
+                    System.out.println("Please type the customer ID number. ID number must be more than 7 digits.");
                     System.out.println("Please type 0 to back to main menu.");
                     while (true){
                         String input = scanner.nextLine();
@@ -226,7 +227,7 @@ public class search{
             String searchOption = scanner.nextLine();
             switch (searchOption){
                 case "1":
-                    System.out.println("Please type the customer ID number. ID number must be more than 10 digits.");
+                    System.out.println("Please type the customer ID number. ID number must be more than 7 digits.");
                     System.out.println("Please type 0 to back to main menu.");
                     while (true){
                         String input = scanner.nextLine();
@@ -259,6 +260,7 @@ public class search{
                     System.out.println("Please type 0 to back to main menu.");
                     while (true){
                         String input = scanner.nextLine();
+
                         if(customerSearch.customerSearchClarification(input)){
                             Customer target = customerSearch.customerSearchCustomerName(input);
                             System.out.println(target);
@@ -378,7 +380,7 @@ public class search{
                         String input = scanner.nextLine();
                         switch (input){
                             case "1":
-                                searchSelectOptionClaim();
+                                searchSelect();
                                 break;
                             case"b":
                             case"B":
@@ -392,8 +394,17 @@ public class search{
                     System.out.println("Please type 0 to back to main menu.");
                     while (true){
                         String input = scanner.nextLine();
-                        if(insuranceCardSearch.insuranceCardSearchClarification(input)){
-                            System.out.println(insuranceCardSearch.insuranceCardSearchCustomerName(input));
+                        CustomerDAO customerDAO = new CustomerDAO();
+                        ArrayList<Customer> customers= customerDAO.getAll();
+                        Customer target = new Customer();
+                        for(Customer c : customers){
+                            if(c.getFullName().equals(input)){
+                                target = c;
+                            }
+
+                        }
+                        if(target.getInsuranceCard() != null){
+                            System.out.println(target.getInsuranceCard());
                             break;
                         }else if(input.equals("0")){
                             startMenu();
