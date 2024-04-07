@@ -47,6 +47,8 @@ public class ClaimProcessManagerImpl implements Serializable,Save, ClaimProcessM
  * @param FileName : This will be the name of the saved PDF file. "ID_InsuranceCardNumber_Filename".pdf
  * @param textDetail : This is the detailed content of the PDF file.
  *                    *     In this feature, external library,PDFBOX is used
+ * @see Download : https://pdfbox.apache.org/
+ * @see Reference : https://stackoverflow.com/questions/69635887/helvetica-cannot-be-resolved-or-is-not-a-field
  */
 
         String projectRoot = System.getProperty("user.dir");
