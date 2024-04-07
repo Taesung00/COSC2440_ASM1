@@ -1,13 +1,19 @@
 package System.UI.delete;
 
 import Components.Entities.Claim;
+import Components.Entities.Customer;
 import Functions.DAO.ClaimProcessManagerImpl;
+import Functions.DAO.CustomerDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import static System.UI.UserInterface.startMenu;
+
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
 
 public class delete{
     public static void deleteClaim() throws IOException {
@@ -43,6 +49,12 @@ public class delete{
                             switch (deleteAffirm){
                                 case "Y":
                                 case "y":
+                                    CustomerDAO CustomerManager = new CustomerDAO();
+                                    Customer targetInsuredCustomer= target.getInsurancedPerson();
+                                    targetInsuredCustomer.deleteClaimList(target);
+                                    CustomerManager.update(targetInsuredCustomer);
+                                    System.out.println(target);
+
                                     manager.delete(target.getID()+".ser");
                                     System.out.println("Claim is completely deleted.\nDo you want to delete other claim, press Y \n" +
                                             "If you want to back main menu, press b");
@@ -84,6 +96,9 @@ public class delete{
                         }
 
                     }
+                }
+                else{
+                    System.out.println("Invalid input, try again");
                 }
             }
             catch (NumberFormatException ex){

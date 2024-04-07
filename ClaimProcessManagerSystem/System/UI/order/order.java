@@ -11,6 +11,9 @@ import java.util.Scanner;
 import static System.UI.UserInterface.startMenu;
 import static System.UI.update.update.*;
 
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
 
 public class order {
     static Scanner scanner = new Scanner(System.in);
@@ -36,6 +39,8 @@ public class order {
                         Claim target = claims.get(number);
                         orderClaimDetail(target.getID());
                     }
+                }else{
+                    System.out.println("Invalid input, try again");
                 }
             }
             catch (NumberFormatException ex){
@@ -68,6 +73,8 @@ public class order {
                         Claim target = claims.get(number);
                         orderClaimDetail(target.getID());
                     }
+                }else{
+                    System.out.println("Invalid input, try again");
                 }
             }
             catch (NumberFormatException ex){
@@ -100,6 +107,8 @@ public class order {
                         Claim target = claims.get(number);
                         orderClaimDetail(target.getID());
                     }
+                }else{
+                    System.out.println("Invalid input, try again");
                 }
             }
             catch (NumberFormatException ex){
@@ -132,6 +141,8 @@ public class order {
                         Claim target = claims.get(number);
                         orderClaimDetail(target.getID());
                     }
+                }else{
+                    System.out.println("Invalid input, try again");
                 }
             }
             catch (NumberFormatException ex){

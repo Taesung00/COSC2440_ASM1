@@ -30,7 +30,12 @@ public class ClaimOrder implements order{
         Collections.sort(ClaimList, Comparator.comparing(Claim::getClaimAmount));
         return ClaimList;
     }
-    public static ArrayList<Claim> claimStatusSort() /*New > Processing > Done*/{
+    public static ArrayList<Claim> claimStatusSort() {
+        /**
+         * @return order of New > Processing > Done
+         *@see <a href="https://www.geeksforgeeks.org/bubble-sort/">https://www.geeksforgeeks.org/bubble-sort/</a>
+         * Based on bubble sort algorithm
+         * */
         ArrayList<Claim> ClaimList = manager.getAll();
         Claim i1 = null;
         Claim i2 = null;

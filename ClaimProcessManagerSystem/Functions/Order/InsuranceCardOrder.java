@@ -10,6 +10,7 @@ import java.util.Comparator;
 
 /**
  * @author <Taesung Yoon - S3847581>
+ *     This feature is provided for future work(More features to other compoment)
  */
 
 public class InsuranceCardOrder implements order{

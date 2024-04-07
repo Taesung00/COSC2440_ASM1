@@ -13,7 +13,6 @@ public class insuranceCardSearch {
     static InsuranceCardDAO manager = new InsuranceCardDAO();
     public static ArrayList<InsuranceCard> insuranceCards = manager.getAll();
 
-
     public static ArrayList<InsuranceCard> insuranceCardSearchCustomerName(String name){
         ArrayList<InsuranceCard> result = new ArrayList<>();
         for(InsuranceCard insuranceCard : insuranceCards){

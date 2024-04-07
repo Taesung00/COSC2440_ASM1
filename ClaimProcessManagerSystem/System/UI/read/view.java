@@ -12,6 +12,10 @@ import java.util.Scanner;
 import static System.UI.UserInterface.startMenu;
 import static System.UI.order.order.*;
 
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
+
 public class view{
     static Scanner scanner = new Scanner(System.in);
     public static void viewClaimSelect() throws IOException {
@@ -30,6 +34,7 @@ public class view{
         String viewOption = scanner.nextLine();
 
         switch (viewOption) {
+            case "B":
             case "b":
                 System.out.println("Back to start menu...");
                 System.out.println("");

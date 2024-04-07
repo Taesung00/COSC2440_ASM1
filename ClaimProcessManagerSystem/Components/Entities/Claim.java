@@ -52,6 +52,7 @@ public class Claim extends ClaimProcessManagerImpl implements Serializable, Save
         this.ClaimStatus = Status.New;
         this.CardNum = String.valueOf(InsuranceCard.getCardNum());
         this.ReceiverBankingInfo = ReceiverBankingInfo;
+        this.Card = InsuranceCard;
         InsuredPerson.addClaim(this);
     }
 
@@ -121,6 +122,7 @@ public class Claim extends ClaimProcessManagerImpl implements Serializable, Save
                 ", ClaimDate :" + ClaimDate +
                 ", Insuranced Person's ID :" + InsuredPerson.getID() + " : "+InsuredPerson.getFullName()+
                 ", Card Number :" + CardNum +
+                ", Card Information :"+Card +
                 ", Exam Date :" + ExamDate +
                 ", List Of Documents :" + ListOfDocuments +
                 ", Claim Amount :" + ClaimAmount +

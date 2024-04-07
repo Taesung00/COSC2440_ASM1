@@ -22,6 +22,9 @@ public class ClaimProcessManagerImpl implements Serializable,Save, ClaimProcessM
     private static final long serialVersionUID = 6L;
 
     public ArrayList<String> getAllPDFFileNames(){
+        /**
+         * @return All of PDF file names in database
+         * */
         String projectRoot = System.getProperty("user.dir");
         ArrayList<String> results = new ArrayList<>();
         String path = projectRoot + "/ClaimProcessManagerSystem/Components/Data/ClaimDocuments";
@@ -40,15 +43,19 @@ public class ClaimProcessManagerImpl implements Serializable,Save, ClaimProcessM
     }
 
     public void wirtePDFFiles(Claim claim,String FileName ,String textDetail) throws IOException {
+/**
+ * @param FileName : This will be the name of the saved PDF file. "ID_InsuranceCardNumber_Filename".pdf
+ * @param textDetail : This is the detailed content of the PDF file.
+ *                    *     In this feature, external library,PDFBOX is used
+ */
+
         String projectRoot = System.getProperty("user.dir");
         String path = projectRoot + "/ClaimProcessManagerSystem/Components/Data/ClaimDocuments";
         try {
-            PDDocument document = new PDDocument();
-            // Add a page
+            PDDocument doc = new PDDocument();
             PDPage p = new PDPage();
-            document.addPage(p);
-            // Start a new content stream
-            PDPageContentStream contentStream = new PDPageContentStream(document, p);
+            doc.addPage(p);
+            PDPageContentStream contentStream = new PDPageContentStream(doc, p);
 
             // Set font and font size
             contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
@@ -58,15 +65,12 @@ public class ClaimProcessManagerImpl implements Serializable,Save, ClaimProcessM
             contentStream.newLineAtOffset(100, 700); // Set the position where you want to start writing
             contentStream.showText(textDetail);
             contentStream.endText();
-
-            // Make sure to close the content stream
             contentStream.close();
 
             // Save the document
-            document.save(path+"/"+FileName);
-
+            doc.save(path+"/"+FileName);
             // Close the document
-            document.close();
+            doc.close();
 
             System.out.printf("%s file is created successfully! \n",FileName);
         } catch (IOException e) {

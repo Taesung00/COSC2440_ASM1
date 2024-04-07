@@ -12,6 +12,10 @@ import java.util.Scanner;
 
 import static System.UI.UserInterface.startMenu;
 
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
+
 public class update {
 
     public static void orderClaimDetail(String ID) throws IOException {
@@ -22,10 +26,11 @@ public class update {
         System.out.println("1. Update");
         System.out.println("2. Print details of this claim's customer");
         System.out.println("3. Print details of this claim's insurance card");
-        System.out.println("b. Back to claim display menu.");
+        System.out.println("b. Back to claim display.");
         while (true){
             String input = scanner.nextLine();
             switch (input){
+                case "B":
                 case "b":
                     view.viewClaimSelect();
                     break;
@@ -187,6 +192,7 @@ public class update {
                                                         case "1":
                                                             orderClaimDetail(target.getID());
                                                             break;
+                                                        case "B":
                                                         case "b":
                                                             view.viewClaimSelect();
                                                             break;
@@ -210,9 +216,10 @@ public class update {
 
 
                     }else{
+
                         System.out.println(documents);
                         System.out.println();
-                        System.out.println("1. Adding document 2. Deleting document");
+                        System.out.println("1. Adding document 2. Deleting document b.Back to claim display");
                         while (true) {
                             input = scanner.nextLine();
                             switch (input) {
@@ -336,6 +343,10 @@ public class update {
                                             System.out.println("There's no matched file name in the database.");
                                         }
                                     }
+                                case "B":
+                                case "b":
+                                    view.viewClaimSelect();
+                                    break;
                                 default:
                                     System.out.println("Invalid input, please type again.");
                             }
@@ -357,8 +368,8 @@ public class update {
                         case "Y":
                         case "y":
                             target.setReceiverBankingInfo(bankingInfo);
+                            manager.update(target);
                             System.out.println("Banking information is saved");
-                            System.out.println("Status is changed");
                             System.out.println("1. Back to this claim's update display");
                             System.out.println("b. Back to claim order selection");
                             while (true) {
@@ -382,7 +393,9 @@ public class update {
                         default:
                             System.out.println("Invalid input, please type again.");
                     }
+                case "B":
                 case "b":
+                    view.viewClaimSelect();
             }
         }
     }

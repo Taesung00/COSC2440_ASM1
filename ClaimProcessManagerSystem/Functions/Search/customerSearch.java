@@ -28,7 +28,7 @@ public class customerSearch {
             if(customer.getClaims().size()>1){
                 ArrayList<Claim> claims = customer.getClaims();
                 for(Claim c :claims){
-                    if(c.getID().equals(ID)){
+                    if(c.getID().equals("f-"+ID)){
                         result = c.getInsurancedPerson();
                     }
                 }
@@ -48,7 +48,7 @@ public class customerSearch {
     public static Customer customerSearchInsuranceCardID(String ID){
         Customer result = new Customer();
         for(Customer customer : customers){
-            if(("I-"+customer.getInsuranceCard().getCardNum()).equals(ID)){
+            if((customer.getInsuranceCard().getCardNum()).equals(ID)){
                 result = customer;
             }
         }

@@ -24,6 +24,9 @@ public class Customer implements Serializable,Save{
     }
     private Role customerRole = Role.policyHolder; /*Default value*/
     private ArrayList<Customer> dependentList;
+    /**
+     * Policyholder can have dependent list.
+     * */
 
     public Customer(){}
     public Customer(String IDNumber, String FullName) throws IOException {
@@ -37,6 +40,9 @@ public class Customer implements Serializable,Save{
 
     public void addClaim(Claim claim) throws IOException {
         Claims.add(claim);
+    }
+    public void deleteClaimList(Claim claim){
+        this.getClaims().remove(claim);
     }
 
     public void setCustomerRolePolicyHolder() {
@@ -64,6 +70,8 @@ public class Customer implements Serializable,Save{
     }
 
     public void addDependent(Customer dependent){
+
+
         dependentList.add(dependent);
     }
 

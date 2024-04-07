@@ -9,8 +9,12 @@ import java.util.Arrays;
  * @author <Taesung Yoon - S3847581>
  */
 
-public class Clarification/*If not duplicated true ,duplicated false*/{
+public class Clarification{
     public static Boolean duplicationClarify(String componentID){
+        /**
+         * @param componentID = (claim || customer || InsuranceCard).getID()
+         * @return If not duplicated return true ,duplicated return false
+         * */
         ArrayList<String> componentFiles = new ArrayList<>();
         ArrayList<String> componentFolders = new ArrayList<String>(Arrays.asList("Claims", "Customers", "InsuranceCards"));
         for (String component : componentFolders) {

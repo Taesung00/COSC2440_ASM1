@@ -15,6 +15,10 @@ import java.util.Scanner;
 
 import static System.UI.UserInterface.startMenu;
 
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
+
 public class search{
     public static void searchSelect() throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -35,6 +39,7 @@ public class search{
                 case "3":
                     searchSelectOptionInsuranceCard();
                     break;
+                case "B":
                 case"b":
                     startMenu();
                     break;
@@ -55,6 +60,7 @@ public class search{
         while (true){
             String searchOption = scanner.nextLine();
             switch (searchOption){
+                case "B":
                 case "b":
                     startMenu();
                     break;
@@ -65,6 +71,7 @@ public class search{
                     System.out.println("Please type 0 to back to main menu.");
                     while (true){
                         String input = scanner.nextLine();
+                        System.out.println("c-"+input);
                         if(!Clarification.duplicationClarify("c-"+input)){
                             ArrayList<Claim> claims = claimSearch.claimSearchCustomerID(input);
                             for(Claim c : claims){
@@ -97,7 +104,7 @@ public class search{
                     while (true){
                         String input = scanner.nextLine();
                         if(!Clarification.duplicationClarify("f-"+input)){
-                            System.out.println(claimSearch.claimSearchClaimID("f-"));
+                            System.out.println(claimSearch.claimSearchClaimID(input));
                             break;
                         }else if(input.equals("0")){
                             startMenu();
@@ -182,7 +189,7 @@ public class search{
                                 break;
 
                         }
-                        System.out.println("Please type 1 to go search menu.\nPress b to go main menu.");
+                        System.out.println("Please type 1 to go claim search menu.\nPress b to go main menu.");
                         while (true){
                             input = scanner.nextLine();
                             switch (input){
@@ -318,7 +325,7 @@ public class search{
                     System.out.println("Please type 0 to back to main menu.");
                     while (true){
                         String input = scanner.nextLine();
-                        if(!Clarification.duplicationClarify("c-"+input)){
+                        if(!Clarification.duplicationClarify("f-"+input)){
                             Customer target = customerSearch.customerSearchClaimID(input);
                             System.out.println(target);
                             break;

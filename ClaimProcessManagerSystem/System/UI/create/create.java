@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
+/**
+ * @author <Taesung Yoon - S3847581>
+ */
 
 public class create{
     public static void createClaim() throws IOException {
@@ -78,6 +80,8 @@ public class create{
                             targetCustomer = customers.get(number);
                             targetCard = targetCustomer.getInsuranceCard();
                         }
+                    }else{
+                        System.out.println("Invalid input, try again");
                     }
                 }catch (NumberFormatException ex){
                     ex.printStackTrace();
@@ -98,7 +102,6 @@ public class create{
                     System.out.println("Please type the claim date day.");
                     int claimDay = scanner.nextInt();
                     claimDate = LocalDate.of(claimYear, claimMonth, claimDay);
-
                     System.out.println("Please type the exam date year.");
                     int examYear = scanner.nextInt();
                     System.out.println("Please type the exam date month.");
@@ -137,7 +140,7 @@ public class create{
                     switch (response){
                         case ("y"):
                         case ("Y"):
-                            Claim cl = new Claim(IDNum,claimDate,targetCustomer,targetCard,examDate,claimAmount,bankingInfo);
+                            Claim cl = new Claim(IDNum,claimDate,targetCustomer,targetCustomer.getInsuranceCard(),examDate,claimAmount,bankingInfo);
                             manager.add(cl);
                             targetCustomer.addClaim(cl);
                             CustomerManager.update(targetCustomer);
@@ -151,6 +154,7 @@ public class create{
                                 String sc = scanner.nextLine();
                                 switch (sc){
                                     case "1":createClaim();
+                                    case "B":
                                     case "b":startMenu();
                                     default:
                                         System.out.println("Invalid output. Please type again.");
