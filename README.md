@@ -6,7 +6,7 @@ Description: This project is to develop a system that manages, tracks, and proce
 
 Technologies Used:
 
-Programming Language: Java
+Programming Language: Java/
 External Library: PDFbox (https://pdfbox.apache.org/)
 Features:
 
